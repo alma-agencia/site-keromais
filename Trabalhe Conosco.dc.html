@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,800;1,500&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; }
+  ::selection { background: #EBC58D; color: #4E352C; }
+  .ph-stripe { background-image: repeating-linear-gradient(135deg, rgba(162,126,90,0.14) 0 14px, rgba(162,126,90,0.05) 14px 28px); }
+</style>
+</helmet>
+
+<div style="font-family: 'Montserrat', sans-serif; color: #4E352C; background: #FAF6F0; overflow-x: hidden;">
+  <dc-import name="SiteHeader" active="trabalhe" hint-size="100%,110px"></dc-import>
+
+  <section style="position: relative; background: #4E352C; color: #FAF6F0; overflow: hidden;">
+    <div class="ph-stripe" style="position: absolute; inset: 0; opacity: 0.45;"></div>
+    <div style="position: relative; max-width: 1280px; margin: 0 auto; padding: 48px 40px 64px;">
+      <div style="display: inline-flex; align-items: center; gap: 9px; margin-bottom: 18px;">
+        <span style="width: 38px; height: 1px; background: #EBC58D;"></span>
+        <span style="font-size: 12px; letter-spacing: 3px; text-transform: uppercase; color: #EBC58D; font-weight: 600;">Carreiras</span>
+      </div>
+      <h1 style="font-family: 'Playfair Display', serif; font-weight: 800; font-size: clamp(38px, 5vw, 62px); line-height: 1.06; margin: 0 0 18px;">Faça parte da<br><span style="font-style: italic; font-weight: 500; color: #EBC58D;">nossa fornada</span></h1>
+      <p style="font-size: 17px; line-height: 1.7; color: rgba(250,246,240,0.78); max-width: 540px; font-weight: 300; margin: 0;">Buscamos pessoas comprometidas com a excelência e a tradição artesanal. Confira nossas vagas abertas.</p>
+    </div>
+  </section>
+
+  <section style="background: #FAF6F0; padding: 80px 40px;">
+    <div style="max-width: 1080px; margin: 0 auto;">
+      <div style="display: flex; align-items: baseline; gap: 16px; margin-bottom: 28px;">
+        <h2 style="font-family: 'Playfair Display', serif; font-weight: 700; font-size: 28px; color: #4E352C; margin: 0;">Vagas abertas</h2>
+        <span style="flex: 1; height: 1px; background: rgba(162,126,90,0.3);"></span>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 16px;">
+        <sc-for list="{{ vagas }}" as="v" hint-placeholder-count="4">
+          <div style="background: #fff; border: 1px solid rgba(162,126,90,0.18); border-radius: 10px; padding: 26px 30px; display: flex; align-items: center; justify-content: space-between; gap: 24px; transition: all .2s ease;" style-hover="border-color: #EBC58D; box-shadow: 0 16px 34px -22px rgba(78,53,44,0.4);">
+            <div>
+              <h3 style="font-family: 'Playfair Display', serif; font-weight: 700; font-size: 21px; color: #4E352C; margin: 0 0 8px;">{{ v.title }}</h3>
+              <div style="display: flex; gap: 18px; flex-wrap: wrap; font-size: 13px; color: #6b5547;">
+                <span>📍 {{ v.local }}</span><span>· {{ v.tipo }}</span><span>· {{ v.area }}</span>
+              </div>
+            </div>
+            <a href="#" style="flex: none; font-size: 12px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: #4E352C; background: #EBC58D; padding: 13px 24px; border-radius: 6px; text-decoration: none; transition: all .2s ease;" style-hover="background: #A27E5A; color: #FAF6F0;">Candidatar-se</a>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <section style="background: #F1E8DA; padding: 80px 40px;">
+    <div style="max-width: 1080px; margin: 0 auto; display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 56px; align-items: start;">
+      <div>
+        <div style="font-size: 12px; letter-spacing: 3px; text-transform: uppercase; color: #A27E5A; font-weight: 600; margin-bottom: 16px;">Candidatura Espontânea</div>
+        <h2 style="font-family: 'Playfair Display', serif; font-weight: 800; font-size: clamp(28px, 3.2vw, 40px); line-height: 1.15; color: #4E352C; margin: 0 0 18px;">Não encontrou sua vaga?</h2>
+        <p style="font-size: 16px; line-height: 1.75; color: #6b5547; margin: 0;">Deixe seu currículo no nosso banco de talentos. Entraremos em contato quando surgir uma oportunidade com o seu perfil.</p>
+      </div>
+      <div style="background: #fff; border: 1px solid rgba(162,126,90,0.2); border-radius: 12px; padding: 40px 34px; box-shadow: 0 30px 60px -40px rgba(78,53,44,0.35); display: flex; flex-direction: column; align-items: flex-start; gap: 20px;">
+        <p style="font-size: 15.5px; line-height: 1.75; color: #6b5547; margin: 0;">Fale direto com o nosso RH pelo WhatsApp e envie o seu currículo. É rápido e prático.</p>
+        <a href="{{ whatsHref }}" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; gap: 10px; background: #EBC58D; color: #4E352C; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 13px; letter-spacing: 1.5px; text-transform: uppercase; padding: 16px 28px; border-radius: 6px; text-decoration: none; transition: all .25s ease;" style-hover="background: #A27E5A; color: #FAF6F0;">Enviar candidatura via WhatsApp</a>
+      </div>
+    </div>
+  </section>
+
+  <dc-import name="SiteFooter" hint-size="100%,340px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:900}}">
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      vagas: [
+        { title: 'Padeiro(a) Artesanal', local: 'Goiânia, GO', tipo: 'CLT', area: 'Produção' },
+        { title: 'Auxiliar de Produção', local: 'Goiânia, GO', tipo: 'CLT', area: 'Produção' },
+        { title: 'Representante Comercial B2B', local: 'Goiânia, GO', tipo: 'CLT', area: 'Vendas' },
+        { title: 'Analista de Logística (TMS)', local: 'Goiânia, GO', tipo: 'CLT', area: 'Logística' },
+      ],
+      whatsHref: 'https://wa.me/5562000000000?text=' + encodeURIComponent('Olá! Gostaria de enviar minha candidatura para a Kero+ (Trabalhe Conosco).'),
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; }
+  ::selection { background: #EBC58D; color: #4E352C; }
+  .ph-stripe { background-image: repeating-linear-gradient(135deg, rgba(162,126,90,0.14) 0 14px, rgba(162,126,90,0.05) 14px 28px); }
+  .qs-intro { grid-template-columns: 1fr; gap: 48px; }
+  .qs-stats { grid-template-columns: repeat(2, 1fr); }
+  .qs-values { grid-template-columns: 1fr; }
+  @media (min-width: 880px) {
+    .qs-intro { grid-template-columns: 1.1fr 0.9fr; gap: 72px; }
+    .qs-stats { grid-template-columns: repeat(4, 1fr); }
+    .qs-values { grid-template-columns: repeat(3, 1fr); }
+  }
+</style>
+</helmet>
+
+<div style="font-family: 'Montserrat', sans-serif; color: #4E352C; background: #FAF6F0; overflow-x: hidden;">
+  <dc-import name="SiteHeader" active="quemsomos" hint-size="100%,110px"></dc-import>
+
+  <!-- HERO -->
+  <section style="position: relative; background: #4E352C; color: #FAF6F0; overflow: hidden;">
+    <div class="ph-stripe" style="position: absolute; inset: 0; opacity: 0.45;"></div>
+    <div style="position: relative; max-width: 1280px; margin: 0 auto; padding: 48px 40px 64px;">
+      <div style="display: inline-flex; align-items: center; gap: 9px; margin-bottom: 18px;">
+        <span style="width: 38px; height: 1px; background: #EBC58D;"></span>
+        <span style="font-size: 12px; letter-spacing: 3px; text-transform: uppercase; color: #EBC58D; font-weight: 600;">Nossa História · 10 anos</span>
+      </div>
+      <h1 style="font-family: 'Playfair Display', serif; font-weight: 800; font-size: clamp(38px, 5vw, 62px); line-height: 1.06; margin: 0 0 18px; max-width: 760px; letter-spacing: -0.5px;">Uma década assando<br><span style="color: #EBC58D; font-style: italic; font-weight: 500;">qualidade e confiança</span></h1>
+      <p style="font-size: 17px; line-height: 1.7; color: rgba(250,246,240,0.82); margin: 0; max-width: 620px;">Do primeiro forno a um dos nomes de referência em pães congelados — conheça a evolução da Kero+ e o que conquistamos ao longo desses dez anos.</p>
+    </div>
+  </section>
+
+  <!-- INTRO / MISSÃO -->
+  <section style="background: #FAF6F0; padding: 96px 40px;">
+    <div class="qs-intro" style="max-width: 1180px; margin: 0 auto; display: grid; align-items: center;">
+      <div>
+        <div style="display: inline-flex; align-items: center; gap: 9px; margin-bottom: 22px;">
+          <span style="width: 38px; height: 1px; background: #A27E5A;"></span>
+          <span style="font-size: 12px; letter-spacing: 3px; text-transform: uppercase; color: #A27E5A; font-weight: 600;">A nossa origem</span>
+        </div>
+        <h2 style="font-family: 'Playfair Display', serif; font-weight: 800; font-size: clamp(30px, 4vw, 46px); line-height: 1.12; color: #4E352C; margin: 0 0 26px; letter-spacing: -0.5px;">Começou pequeno,<br>cresceu com propósito</h2>
+        <p style="font-size: 16.5px; line-height: 1.8; color: #6b5547; margin: 0 0 22px;">A Kero+ nasceu há dez anos da vontade de levar o sabor de pão recém-saído do forno para mais mesas, sem abrir mão da técnica artesanal. Começamos com uma única linha de produção e um punhado de parceiros que acreditaram na nossa qualidade.</p>
+        <p style="font-size: 16.5px; line-height: 1.8; color: #6b5547; margin: 0 0 22px;">Ano após ano, investimos em fermentação natural, congelamento no ponto exato e processos certificados. Hoje, atendemos redes de varejo, padarias, food service e hotelaria por todo o país — e seguimos com a mesma obsessão pelo detalhe do primeiro dia.</p>
+        <p style="font-size: 16.5px; line-height: 1.8; color: #6b5547; margin: 0;">Nossa missão permanece simples e inegociável: <strong style="color: #4E352C; font-weight: 600;">entregar confiabilidade e excelência em cada unidade</strong>.</p>
+      </div>
+      <div style="position: relative;">
+        <div class="ph-stripe" style="aspect-ratio: 4/5; border-radius: 8px; overflow: hidden; background: #efe4d4; display: flex; align-items: center; justify-content: center; box-shadow: 0 30px 60px -30px rgba(78,53,44,0.4);">
+          <span style="font-family: monospace; font-size: 12px; color: #A27E5A; letter-spacing: 1px; text-align: center; padding: 20px;">[ foto · equipe & fábrica Kero+ ]</span>
+        </div>
+        <div style="position: absolute; bottom: -28px; left: -28px; background: #4E352C; color: #EBC58D; padding: 24px 28px; border-radius: 8px; max-width: 240px; box-shadow: 0 20px 40px -20px rgba(78,53,44,0.6);">
+          <div style="font-family: 'Playfair Display', serif; font-style: italic; font-size: 19px; line-height: 1.4;">"Dez anos depois, ainda começamos cada dia pelo forno."</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NÚMEROS / CONQUISTAS -->
+  <section style="background: #4E352C; color: #FAF6F0; padding: 84px 40px; position: relative; overflow: hidden;">
+    <div class="ph-stripe" style="position: absolute; inset: 0; opacity: 0.3;"></div>
+    <div style="position: relative; max-width: 1180px; margin: 0 auto;">
+      <div style="text-align: center; max-width: 620px; margin: 0 auto 52px;">
+        <div style="display: inline-flex; align-items: center; gap: 9px; margin-bottom: 16px;">
+          <span style="width: 30px; height: 1px; background: #EBC58D;"></span>
+          <span style="font-size: 12px; letter-spacing: 3px; text-transform: uppercase; color: #EBC58D; font-weight: 600;">Conquistas em números</span>
+          <span style="width: 30px; height: 1px; background: #EBC58D;"></span>
+        </div>
+        <h2 style="font-family: 'Playfair Display', serif; font-weight: 800; font-size: clamp(28px, 3.6vw, 44px); line-height: 1.12; margin: 0;">Uma década que fala por si</h2>
+      </div>
+      <div class="qs-stats" style="display: grid; gap: 28px;">
+        <sc-for list="{{ stats }}" as="st" hint-placeholder-count="4">
+          <div style="text-align: center; padding: 14px;">
+            <div style="font-family: 'Playfair Display', serif; font-weight: 800; font-size: clamp(40px, 5vw, 58px); color: #EBC58D; line-height: 1;">{{ st.num }}</div>
+            <div style="font-size: 14px; line-height: 1.5; color: rgba(250,246,240,0.82); margin-top: 12px; max-width: 200px; margin-left: auto; margin-right: auto;">{{ st.label }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- LINHA DO TEMPO -->
+  <section style="background: #FAF6F0; padding: 96px 40px;">
+    <div style="max-width: 1080px; margin: 0 auto;">
+      <div style="margin-bottom: 56px;">
+        <div style="display: inline-flex; align-items: center; gap: 9px; margin-bottom: 18px;">
+          <span style="width: 38px; height: 1px; background: #A27E5A;"></span>
+          <span style="font-size: 12px; letter-spacing: 3px; text-transform: uppercase; color: #A27E5A; font-weight: 600;">A nossa evolução</span>
+        </div>
+        <h2 style="font-family: 'Playfair Display', serif; font-weight: 800; font-size: clamp(30px, 3.8vw, 48px); line-height: 1.1; color: #4E352C; margin: 0;">Dez anos, marco a marco</h2>
+      </div>
+      <div style="position: relative; border-left: 2px solid rgba(162,126,90,0.3); margin-left: 8px;">
+        <sc-for list="{{ marcos }}" as="m" hint-placeholder-count="6">
+          <div style="position: relative; padding: 0 0 44px 40px;">
+            <span style="position: absolute; left: -11px; top: 2px; width: 20px; height: 20px; border-radius: 50%; background: #EBC58D; border: 4px solid #FAF6F0; box-shadow: 0 0 0 2px rgba(162,126,90,0.3);"></span>
+            <div style="font-family: 'Playfair Display', serif; font-weight: 800; font-size: 22px; color: #A27E5A; margin-bottom: 6px;">{{ m.year }}</div>
+            <h3 style="font-family: 'Playfair Display', serif; font-weight: 700; font-size: 21px; color: #4E352C; margin: 0 0 8px; line-height: 1.2;">{{ m.title }}</h3>
+            <p style="font-size: 15.5px; line-height: 1.75; color: #6b5547; margin: 0; max-width: 720px;">{{ m.desc }}</p>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- VALORES -->
+  <section style="background: #FAF6F0; padding: 0 40px 96px;">
+    <div style="max-width: 1180px; margin: 0 auto;">
+      <div class="qs-values" style="display: grid; gap: 24px;">
+        <sc-for list="{{ valores }}" as="v" hint-placeholder-count="3">
+          <div style="background: #fff; border: 1px solid rgba(162,126,90,0.16); border-radius: 12px; padding: 34px 30px;">
+            <div style="width: 46px; height: 46px; border-radius: 10px; background: #EBC58D; color: #4E352C; display: flex; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; font-weight: 800; font-size: 22px; margin-bottom: 20px;">{{ v.mark }}</div>
+            <h3 style="font-family: 'Playfair Display', serif; font-weight: 700; font-size: 21px; color: #4E352C; margin: 0 0 10px; line-height: 1.2;">{{ v.title }}</h3>
+            <p style="font-size: 15px; line-height: 1.7; color: #6b5547; margin: 0;">{{ v.desc }}</p>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background: #4E352C; color: #FAF6F0; padding: 80px 40px; position: relative; overflow: hidden;">
+    <div class="ph-stripe" style="position: absolute; inset: 0; opacity: 0.3;"></div>
+    <div style="position: relative; max-width: 760px; margin: 0 auto; text-align: center;">
+      <h2 style="font-family: 'Playfair Display', serif; font-weight: 800; font-size: clamp(28px, 3.6vw, 44px); line-height: 1.12; margin: 0 0 18px;">Faça parte da próxima década</h2>
+      <p style="font-size: 16.5px; line-height: 1.7; color: rgba(250,246,240,0.82); margin: 0 0 32px;">Seja parceiro comercial ou conheça nossas linhas de pães congelados.</p>
+      <div style="display: flex; gap: 14px; flex-wrap: wrap; justify-content: center;">
+        <a href="Produtos.dc.html" style="display: inline-flex; align-items: center; gap: 10px; background: #EBC58D; color: #4E352C; font-weight: 700; font-size: 13px; letter-spacing: 1.5px; text-transform: uppercase; padding: 16px 30px; border-radius: 5px; text-decoration: none; transition: all .25s ease;" style-hover="background: #A27E5A; color: #FAF6F0;">Conheça os Produtos →</a>
+        <a href="SAC.dc.html" style="display: inline-flex; align-items: center; gap: 10px; border: 1px solid rgba(235,197,141,0.6); color: #EBC58D; font-weight: 600; font-size: 13px; letter-spacing: 1.5px; text-transform: uppercase; padding: 16px 30px; border-radius: 5px; text-decoration: none; transition: all .25s ease;" style-hover="background: rgba(235,197,141,0.16); border-color: #EBC58D;">Fale com o Comercial</a>
+      </div>
+    </div>
+  </section>
+
+  <dc-import name="SiteFooter" hint-size="100%,340px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:900}}">
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      stats: [
+        { num: '10', label: 'anos fabricando qualidade' },
+        { num: '+500', label: 'parceiros comerciais ativos' },
+        { num: '3', label: 'linhas de produto consolidadas' },
+        { num: '+40M', label: 'pães entregues por ano' },
+      ],
+      marcos: [
+        { year: '2016', title: 'O primeiro forno', desc: 'Nasce a Kero+ com uma única linha de produção e o compromisso de congelar pães no ponto exato da fermentação.' },
+        { year: '2018', title: 'Primeiras grandes parcerias', desc: 'Fechamos contrato com as primeiras redes de supermercados, levando nossos pães a novas regiões.' },
+        { year: '2020', title: 'Certificações de segurança alimentar', desc: 'Conquistamos selos ISO 22000 e APPCC/HACCP, formalizando o padrão de qualidade que já praticávamos.' },
+        { year: '2022', title: 'Linha saudável e sem glúten', desc: 'Lançamos as linhas Integrais & Grãos e o Pão de Mandioca, ampliando o alcance para novos públicos.' },
+        { year: '2024', title: 'Expansão da capacidade fabril', desc: 'Dobramos a capacidade de produção com nova unidade e logística de congelados de ponta a ponta.' },
+        { year: '2026', title: 'Uma década de referência', desc: 'Chegamos aos 10 anos como um nome de confiança em pães congelados — e seguimos crescendo com propósito.' },
+      ],
+      valores: [
+        { mark: 'Q', title: 'Qualidade inegociável', desc: 'Cada unidade passa pelo mesmo rigor: grãos selecionados, fermentação natural e congelamento no ponto certo.' },
+        { mark: 'C', title: 'Confiança de parceiro', desc: 'Relações de longo prazo construídas com consistência, transparência e entrega no prazo.' },
+        { mark: 'E', title: 'Evolução constante', desc: 'Investimento contínuo em técnica, processos certificados e novas linhas para acompanhar a mesa do cliente.' },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>

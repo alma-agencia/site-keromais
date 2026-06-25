@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; }
+  ::selection { background: #EBC58D; color: #4E352C; }
+  .ph-stripe { background-image: repeating-linear-gradient(135deg, rgba(162,126,90,0.14) 0 14px, rgba(162,126,90,0.05) 14px 28px); }
+  .linha-img { aspect-ratio: 3/2; background: #1b1b1d no-repeat center / cover; }
+  .linha-img.l1 { background-image: url('assets/c-linha-frances.jpg'); }
+  .linha-img.l2 { background-image: url('assets/c-linha-integrais.jpg'); }
+  .linha-img.l3 { background-image: url('assets/c-linha-mandioca.jpg'); }
+  .leaflet-container { font-family: 'Montserrat', sans-serif; }
+  .kp-pop .leaflet-popup-content-wrapper { background: #4E352C; color: #FAF6F0; border-radius: 8px; }
+  .kp-pop .leaflet-popup-content { margin: 12px 16px; font-size: 13px; }
+  .kp-pop .leaflet-popup-tip { background: #4E352C; }
+  .kp-pop b { font-family: 'Playfair Display', serif; color: #EBC58D; }
+  /* HERO — mobile first: full-bleed slider with overlaid copy */
+  .hero { position: relative; background: #1b1b1d; min-height: 620px; overflow: hidden; }
+  .hero-slide { position: absolute; inset: 0; background: #1b1b1d no-repeat center / cover; opacity: 0; transition: opacity 0.9s ease; }
+  .hero-slide.s1 { background-image: url('assets/c-banner3.jpg'); }
+  .hero-slide.s2 { background-image: url('assets/c-banner4.jpg'); }
+  .hero-copy { position: relative; z-index: 3; max-width: 1280px; margin: 0 auto; padding: 56px 28px; text-align: center; display: flex; flex-direction: column; align-items: center; min-height: 620px; justify-content: center; }
+  .hero-copy .hero-inner { max-width: 440px; }
+  .hero-cta { justify-content: center; }
+  .hero-h1 { font-size: 42px; }
+  .hero-arrow { position: absolute; top: 50%; transform: translateY(-50%); z-index: 4; width: 46px; height: 46px; border-radius: 50%; border: 1px solid rgba(250,246,240,0.5); background: rgba(20,18,17,0.3); color: #FAF6F0; font-size: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer; backdrop-filter: blur(2px); transition: all .25s ease; }
+  .hero-arrow:hover { background: #EBC58D; color: #4E352C; border-color: #EBC58D; }
+  .hero-dots { position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 4; display: flex; gap: 10px; }
+  .hero-dot { width: 10px; height: 10px; border-radius: 50%; border: none; padding: 0; cursor: pointer; background: rgba(250,246,240,0.45); transition: all .25s ease; }
+  .hero-dot.on { background: #EBC58D; width: 30px; border-radius: 5px; }
+  @media (min-width: 880px) {
+    .hero, .hero-copy { min-height: 600px; }
+    .hero-slide.s1 { background-image: url('assets/c-banner3.jpg'); }
+    .hero-slide.s2 { background-image: url('assets/c-banner4.jpg'); }
+    .hero-copy { padding: 96px 56px; text-align: left; align-items: flex-start; }
+    .hero-copy .hero-inner { max-width: 540px; }
+    .hero-cta { justify-content: flex-start; }
+    .hero-h1 { font-size: clamp(48px, 5vw, 76px); }
+  }
+</style>
+</helmet>
+
+<div style="font-family: 'Montserrat', sans-serif; color: #4E352C; background: #FAF6F0; overflow-x: clip;">
+  <template id="__bundler_thumbnail">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#4E352C"/>
+      <text x="50" y="46" font-family="Georgia, serif" font-size="34" font-weight="800" fill="#EBC58D" text-anchor="middle">K+</text>
+      <text x="50" y="66" font-family="Georgia, serif" font-size="9" letter-spacing="1.5" fill="#FAF6F0" text-anchor="middle">PÃES</text>
+    </svg>
+  </template>
+
+  <dc-import name="SiteHeader" active="home" hint-size="100%,110px"></dc-import>
+
+  <!-- HERO -->
+  <section class="hero" style="color: #FAF6F0;">
+    <div class="hero-slide s1" style="opacity: {{ op0 }};"></div>
+    <div class="hero-slide s2" style="opacity: {{ op1 }};"></div>
+    <div style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(20,18,17,0.55), rgba(20,18,17,0.35)); z-index: 2;"></div>
+    <button class="hero-arrow" style="left: 18px;" onClick="{{ prev }}" aria-label="Anterior">‹</button>
+    <button class="hero-arrow" style="right: 18px;" onClick="{{ next }}" aria-label="Próximo">›</button>
+    <div class="hero-dots">
+      <button class="hero-dot {{ dot0 }}" onClick="{{ go0 }}" aria-label="Imagem 1"></button>
+      <button class="hero-dot {{ dot1 }}" onClick="{{ go1 }}" aria-label="Imagem 2"></button>
+    </div>
+    <div class="hero-copy">
+      <div class="hero-inner">
+        <h1 class="hero-h1" style="font-family: 'Playfair Display', serif; font-weight: 800; line-height: 1.04; margin: 0 0 24px; letter-spacing: -0.5px; text-shadow: 0 2px 24px rgba(0,0,0,0.4);">
+          Tradição e Excelência<br><span style="color: #EBC58D; font-style: italic; font-weight: 500;">na Sua Mesa</span>
+        </h1>
+        <div class="hero-cta" style="display: flex; gap: 14px; flex-wrap: wrap;">
+          <a href="Produtos.dc.html" style="display: inline-flex; align-items: center; gap: 10px; background: #EBC58D; color: #4E352C; font-weight: 700; font-size: 13px; letter-spacing: 1.5px; text-transform: uppercase; padding: 16px 30px; border-radius: 5px; text-decoration: none; transition: all .25s ease;" style-hover="background: #A27E5A; color: #FAF6F0;">Conheça os Produtos →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VITRINE DAS LINHAS -->
+  <section style="background: #FAF6F0; padding: 100px 40px;">
+    <div style="max-width: 1280px; margin: 0 auto;">
+      <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap; margin-bottom: 48px;">
+        <div style="max-width: 560px;">
+          <div style="display: inline-flex; align-items: center; gap: 9px; margin-bottom: 18px;">
+            <span style="width: 38px; height: 1px; background: #A27E5A;"></span>
+            <span style="font-size: 12px; letter-spacing: 3px; text-transform: uppercase; color: #A27E5A; font-weight: 600;">Nossas Linhas</span>
+          </div>
+          <h2 style="font-family: 'Playfair Display', serif; font-weight: 800; font-size: clamp(30px, 3.8vw, 48px); line-height: 1.1; color: #4E352C; margin: 0 0 14px;">Uma vitrine de sabores</h2>
+          <p style="font-size: 16.5px; line-height: 1.7; color: #6b5547; margin: 0;">Três linhas pensadas para cada momento — do clássico francês ao inovador pão de mandioca sem glúten.</p>
+        </div>
+        <a href="Produtos.dc.html" style="flex: none; font-size: 13px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #4E352C; background: #EBC58D; padding: 15px 28px; border-radius: 5px; text-decoration: none; transition: all .25s ease;" style-hover="background: #A27E5A; color: #FAF6F0;">Ver catálogo completo →</a>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px;">
+        <sc-for list="{{ linhas }}" as="l" hint-placeholder-count="3">
+          <a href="Produtos.dc.html" style="text-decoration: none; color: #4E352C; display: block; background: #fff; border: 1px solid rgba(162,126,90,0.16); border-radius: 12px; overflow: hidden; transition: all .25s ease;" style-hover="transform: translateY(-8px); box-shadow: 0 30px 56px -28px rgba(78,53,44,0.45); border-color: #EBC58D;">
+            <div class="linha-img {{ l.cls }}"></div>
+            <div style="padding: 28px 26px 30px;">
+              <div style="font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: #A27E5A; font-weight: 600; margin-bottom: 10px;">{{ l.tag }}</div>
+              <h3 style="font-family: 'Playfair Display', serif; font-weight: 700; font-size: 24px; color: #4E352C; margin: 0 0 12px; line-height: 1.15;">{{ l.title }}</h3>
+              <p style="font-size: 14.5px; line-height: 1.7; color: #6b5547; margin: 0 0 18px;">{{ l.desc }}</p>
+              <span style="font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: #4E352C; font-weight: 700; border-bottom: 2px solid #EBC58D; padding-bottom: 3px;">Explorar a linha →</span>
+            </div>
+          </a>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUEM SOMOS -->
+  <section id="quem-somos" style="background: #FAF6F0; padding: 100px 40px;">
+    <div style="max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: center;">
+      <div>
+        <div style="display: inline-flex; align-items: center; gap: 9px; margin-bottom: 22px;">
+          <span style="width: 38px; height: 1px; background: #A27E5A;"></span>
+          <span style="font-size: 12px; letter-spacing: 3px; text-transform: uppercase; color: #A27E5A; font-weight: 600;">Quem Somos</span>
+        </div>
+        <h2 style="font-family: 'Playfair Display', serif; font-weight: 800; font-size: clamp(32px, 4vw, 50px); line-height: 1.1; color: #4E352C; margin: 0 0 28px; letter-spacing: -0.5px;">
+          Um legado assado<br>em cada fornada
+        </h2>
+        <p style="font-size: 16.5px; line-height: 1.8; color: #6b5547; margin: 0 0 22px;">
+          Há décadas dedicamos nossa manufatura à produção especializada de pães congelados de alta qualidade. Selecionamos grãos cuidadosamente, respeitamos os tempos da fermentação e congelamos no ponto exato — preservando o frescor, o aroma e a textura do pão recém-saído do forno.
+        </p>
+        <p style="font-size: 16.5px; line-height: 1.8; color: #6b5547; margin: 0;">
+          Nossa filosofia é simples e inegociável: <strong style="color: #4E352C; font-weight: 600;">confiabilidade e excelência em cada unidade</strong>. É isso que nos move e o que entregamos a cada parceiro e a cada mesa.
+        </p>
+      </div>
+      <div style="position: relative;">
+        <div class="ph-stripe" style="aspect-ratio: 4/5; border-radius: 8px; overflow: hidden; background: #efe4d4; display: flex; align-items: center; justify-content: center; box-shadow: 0 30px 60px -30px rgba(78,53,44,0.4);">
+          <span style="font-family: monospace; font-size: 12px; color: #A27E5A; letter-spacing: 1px; text-align: center; padding: 20px;">[ foto histórica · panificação artesanal ]</span>
+        </div>
+        <div style="position: absolute; bottom: -28px; left: -28px; background: #4E352C; color: #EBC58D; padding: 24px 28px; border-radius: 8px; max-width: 220px; box-shadow: 0 20px 40px -20px rgba(78,53,44,0.6);">
+          <div style="font-family: 'Playfair Display', serif; font-style: italic; font-size: 19px; line-height: 1.4;">"Fabricando Qualidade desde sempre."</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PARCEIROS + MAPA -->
+  <section style="background: #4E352C; color: #FAF6F0; padding: 100px 40px; position: relative; overflow: hidden;">
+    <div class="ph-stripe" style="position: absolute; inset: 0; opacity: 0.3;"></div>
+    <div style="position: relative; max-width: 1280px; margin: 0 auto;">
+      <div style="text-align: center; max-width: 620px; margin: 0 auto 54px;">
+        <div style="display: inline-flex; align-items: center; gap: 9px; margin-bottom: 18px;">
+          <span style="width: 30px; height: 1px; background: #EBC58D;"></span>
+          <span style="font-size: 12px; letter-spacing: 3px; text-transform: uppercase; color: #EBC58D; font-weight: 600;">Onde encontrar · Parceiros</span>
+          <span style="width: 30px; height: 1px; background: #EBC58D;"></span>
+        </div>
+        <h2 style="font-family: 'Playfair Display', serif; font-weight: 800; font-size: clamp(30px, 3.8vw, 48px); line-height: 1.1; margin: 0;">O Kero+ está perto de você</h2>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr; gap: 32px; align-items: stretch; max-width: 860px; margin: 0 auto;">
+        <!-- mapa -->
+        <div style="background: rgba(250,246,240,0.06); border: 1px solid rgba(235,197,141,0.2); border-radius: 12px; padding: 28px; display: flex; flex-direction: column;">
+          <div style="font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #EBC58D; font-weight: 700; margin-bottom: 18px;">Mapa de pontos de venda</div>
+          <div ref="{{ mapRef }}" style="position: relative; flex: 1; min-height: 380px; border-radius: 10px; background: #5c4339; overflow: hidden; z-index: 0;"></div>
+          <div style="display: flex; gap: 14px; flex-wrap: wrap; margin-top: 20px;">
+            <a href="Area do Cliente.dc.html" style="flex: 1; min-width: 180px; text-align: center; font-size: 12.5px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: #4E352C; background: #EBC58D; padding: 14px 20px; border-radius: 6px; text-decoration: none; transition: all .2s ease;" style-hover="background: #A27E5A; color: #FAF6F0;">Seja um parceiro comercial</a>
+            <a href="SAC.dc.html" style="flex: 1; min-width: 180px; text-align: center; font-size: 12.5px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: #EBC58D; border: 1px solid rgba(235,197,141,0.45); padding: 14px 20px; border-radius: 6px; text-decoration: none; transition: all .2s ease;" style-hover="background: rgba(235,197,141,0.12); border-color: #EBC58D;">Onde comprar (SAC)</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <dc-import name="SiteFooter" hint-size="100%,340px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:900}}">
+class Component extends DCLogic {
+  state = { slide: 0 };
+  COUNT = 2;
+  // Cidades com produtos Kero+ — edite/adicione aqui (lat, lng, nome)
+  CITIES = [
+    { name: 'Goiânia, GO', sub: 'Sede & fábrica', lat: -16.6869, lng: -49.2648, hq: true },
+    { name: 'Aparecida de Goiânia, GO', lat: -16.8198, lng: -49.2469 },
+    { name: 'Anápolis, GO', lat: -16.3267, lng: -48.9526 },
+    { name: 'Rio Verde, GO', lat: -17.7975, lng: -50.9266 },
+    { name: 'Catalão, GO', lat: -18.1656, lng: -47.9461 },
+    { name: 'Brasília, DF', lat: -15.7939, lng: -47.8828 },
+  ];
+  constructor(props) {
+    super(props);
+    this.mapRef = React.createRef();
+  }
+  componentDidMount() {
+    this.start();
+    this.initMap();
+  }
+  initMap(tries = 0) {
+    const el = this.mapRef.current;
+    if (!el || el._kpInit) return;
+    if (typeof window.L === 'undefined') {
+      if (tries < 60) { this._mapTimer = setTimeout(() => this.initMap(tries + 1), 100); }
+      return;
+    }
+    const L = window.L;
+    el._kpInit = true;
+    const map = L.map(el, { scrollWheelZoom: false, attributionControl: true });
+    this.map = map;
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 18,
+      attribution: '&copy; OpenStreetMap',
+    }).addTo(map);
+    const gold = L.divIcon({
+      className: '',
+      html: '<div style="width:18px;height:18px;border-radius:50%;background:#EBC58D;border:3px solid #4E352C;box-shadow:0 0 0 4px rgba(235,197,141,.3)"></div>',
+      iconSize: [18, 18], iconAnchor: [9, 9], popupAnchor: [0, -10],
+    });
+    const hq = L.divIcon({
+      className: '',
+      html: '<div style="width:24px;height:24px;border-radius:50%;background:#4E352C;border:3px solid #EBC58D;box-shadow:0 0 0 5px rgba(78,53,44,.3);display:flex;align-items:center;justify-content:center;color:#EBC58D;font:700 12px Georgia,serif">K</div>',
+      iconSize: [24, 24], iconAnchor: [12, 12], popupAnchor: [0, -12],
+    });
+    const bounds = [];
+    this.CITIES.forEach(c => {
+      const m = L.marker([c.lat, c.lng], { icon: c.hq ? hq : gold }).addTo(map);
+      m.bindPopup('<b>' + c.name + '</b>' + (c.sub ? '<br>' + c.sub : ''), { className: 'kp-pop' });
+      bounds.push([c.lat, c.lng]);
+    });
+    if (bounds.length > 1) map.fitBounds(bounds, { padding: [40, 40] });
+    else if (bounds.length === 1) map.setView(bounds[0], 11);
+    setTimeout(() => map.invalidateSize(), 200);
+  }
+  componentWillUnmount() {
+    clearInterval(this.timer);
+    if (this._mapTimer) clearTimeout(this._mapTimer);
+    if (this.map) { this.map.remove(); this.map = null; }
+  }
+  start() {
+    clearInterval(this.timer);
+    this.timer = setInterval(() => this.setState(s => ({ slide: (s.slide + 1) % this.COUNT })), 5500);
+  }
+  go(i) { this.start(); this.setState({ slide: i }); }
+  renderVals() {
+    const s = this.state.slide;
+    return {
+      op0: s === 0 ? 1 : 0,
+      op1: s === 1 ? 1 : 0,
+      dot0: s === 0 ? 'on' : '',
+      dot1: s === 1 ? 'on' : '',
+      go0: () => this.go(0),
+      go1: () => this.go(1),
+      next: () => this.go((s + 1) % this.COUNT),
+      prev: () => this.go((s - 1 + this.COUNT) % this.COUNT),
+      mapRef: this.mapRef,
+      selos: [
+        { code: 'selo ISO 22000', label: 'Segurança de Alimentos' },
+        { code: 'selo HACCP', label: 'APPCC / HACCP' },
+        { code: 'selo ANVISA', label: 'Registro ANVISA' },
+        { code: 'selo SIF', label: 'Inspeção Federal' },
+      ],
+      linhas: [
+        { tag: 'Linha Clássica', title: 'Pão Francês Tradicional', desc: 'O pãozinho de cada dia: casca crocante e miolo macio, congelado no ponto exato da fermentação.', cls: 'l1' },
+        { tag: 'Linha Saudável', title: 'Integrais & Grãos', desc: 'Trigo integral, linhaça, girassol e aveia. Sabor rústico e mais fibras para o dia a dia.', cls: 'l2' },
+        { tag: 'Mandi Bread', title: 'Pão de Mandioca', desc: 'Goma de mandioca, naturalmente sem glúten. Leveza e sabor para todos os públicos.', cls: 'l3' },
+      ],
+      pins: [],
+      parceiros: [
+        { initial: 'R', name: 'Rede Supermercados', type: 'Varejo alimentar' },
+        { initial: 'P', name: 'Padarias Associadas', type: 'Food service' },
+        { initial: 'H', name: 'Rede Hoteleira', type: 'Hospitalidade' },
+        { initial: 'D', name: 'Distribuidora Regional', type: 'Atacado & logística' },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>

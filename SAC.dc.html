@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,800;1,500&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; }
+  ::selection { background: #EBC58D; color: #4E352C; }
+  .ph-stripe { background-image: repeating-linear-gradient(135deg, rgba(162,126,90,0.14) 0 14px, rgba(162,126,90,0.05) 14px 28px); }
+</style>
+</helmet>
+
+<div style="font-family: 'Montserrat', sans-serif; color: #4E352C; background: #FAF6F0; overflow-x: hidden;">
+  <dc-import name="SiteHeader" active="sac" hint-size="100%,110px"></dc-import>
+
+  <section style="position: relative; background: #4E352C; color: #FAF6F0; overflow: hidden;">
+    <div class="ph-stripe" style="position: absolute; inset: 0; opacity: 0.45;"></div>
+    <div style="position: relative; max-width: 1280px; margin: 0 auto; padding: 48px 40px 64px;">
+      <div style="display: inline-flex; align-items: center; gap: 9px; margin-bottom: 18px;">
+        <span style="width: 38px; height: 1px; background: #EBC58D;"></span>
+        <span style="font-size: 12px; letter-spacing: 3px; text-transform: uppercase; color: #EBC58D; font-weight: 600;">Atendimento Comercial</span>
+      </div>
+      <h1 style="font-family: 'Playfair Display', serif; font-weight: 800; font-size: clamp(38px, 5vw, 62px); line-height: 1.06; margin: 0;">Fale com a gente</h1>
+    </div>
+  </section>
+
+  <section style="background: #FAF6F0; padding: 80px 40px 100px;">
+    <div style="max-width: 1080px; margin: 0 auto; display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 64px; align-items: start;">
+      <div>
+        <h2 style="font-family: 'Playfair Display', serif; font-weight: 800; font-size: clamp(28px, 3.2vw, 38px); line-height: 1.15; color: #4E352C; margin: 0 0 20px;">Sua voz fortalece<br>nossa qualidade</h2>
+        <p style="font-size: 16px; line-height: 1.75; color: #6b5547; margin: 0 0 30px;">Sugestões, críticas ou elogios — preencha o formulário e nossa equipe retornará o seu contato o quanto antes.</p>
+        <div style="display: flex; flex-direction: column; gap: 16px;">
+          <sc-for list="{{ contatos }}" as="c" hint-placeholder-count="3">
+            <div style="display: flex; align-items: center; gap: 14px; background: #fff; border: 1px solid rgba(162,126,90,0.16); border-radius: 8px; padding: 16px 18px;">
+              <span style="width: 34px; height: 34px; border-radius: 8px; background: #EBC58D; color: #4E352C; display: flex; align-items: center; justify-content: center; font-weight: 700; flex: none;">{{ c.icon }}</span>
+              <div>
+                <div style="font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: #A27E5A; font-weight: 600;">{{ c.label }}</div>
+                <div style="font-size: 14px; color: #4E352C; font-weight: 500; margin-top: 2px;">{{ c.value }}</div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      <div style="background: #fff; border: 1px solid rgba(162,126,90,0.2); border-radius: 12px; padding: 36px; box-shadow: 0 30px 60px -40px rgba(78,53,44,0.35);">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px;">
+          <sc-for list="{{ sacFields }}" as="f" hint-placeholder-count="4">
+            <label style="display: block; grid-column: {{ f.span }};">
+              <span style="display: block; font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: #A27E5A; font-weight: 600; margin-bottom: 8px;">{{ f.label }}</span>
+              <input type="text" placeholder="{{ f.ph }}" style="width: 100%; border: 1px solid rgba(162,126,90,0.3); background: #FAF6F0; border-radius: 6px; padding: 13px 14px; font-family: 'Montserrat', sans-serif; font-size: 14px; color: #4E352C; outline: none;" style-focus="border-color: #EBC58D;" />
+            </label>
+          </sc-for>
+          <label style="display: block; grid-column: 1 / -1;">
+            <span style="display: block; font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: #A27E5A; font-weight: 600; margin-bottom: 8px;">Tipo de manifestação</span>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+              <sc-for list="{{ sacTypes }}" as="t" hint-placeholder-count="3">
+                <span style="font-size: 12.5px; font-weight: 600; color: #4E352C; border: 1px solid rgba(162,126,90,0.35); border-radius: 30px; padding: 9px 18px; cursor: pointer; transition: all .2s ease;" style-hover="background: #EBC58D; border-color: #EBC58D;">{{ t }}</span>
+              </sc-for>
+            </div>
+          </label>
+          <label style="display: block; grid-column: 1 / -1;">
+            <span style="display: block; font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: #A27E5A; font-weight: 600; margin-bottom: 8px;">Mensagem</span>
+            <textarea rows="4" placeholder="Escreva sua mensagem..." style="width: 100%; border: 1px solid rgba(162,126,90,0.3); background: #FAF6F0; border-radius: 6px; padding: 13px 14px; font-family: 'Montserrat', sans-serif; font-size: 14px; color: #4E352C; outline: none; resize: vertical;" style-focus="border-color: #EBC58D;"></textarea>
+          </label>
+          <button style="grid-column: 1 / -1; background: #EBC58D; color: #4E352C; border: none; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 13px; letter-spacing: 1.5px; text-transform: uppercase; padding: 16px; border-radius: 6px; cursor: pointer; transition: all .25s ease;" style-hover="background: #A27E5A; color: #FAF6F0;">Enviar mensagem</button>
+        </div>
+        <p style="font-size: 12px; line-height: 1.7; color: #8a7666; margin: 20px 0 0; padding-top: 18px; border-top: 1px solid rgba(162,126,90,0.18);">
+          Trataremos seus dados pessoais exclusivamente para retornar seu contato. Para mais informações, acesse o nosso <a href="#" style="color: #A27E5A; font-weight: 600; text-decoration: underline;">Aviso de Privacidade</a>.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <dc-import name="SiteFooter" hint-size="100%,340px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:900}}">
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      contatos: [
+        { icon: '☎', label: 'SAC', value: '0800 000 0000' },
+        { icon: '@', label: 'E-mail', value: 'sac@keromais.com.br' },
+        { icon: '⏱', label: 'Horário', value: 'Seg a Sex · 8h às 18h' },
+      ],
+      sacFields: [
+        { label: 'Nome completo', ph: 'Seu nome', span: '1 / -1' },
+        { label: 'E-mail', ph: 'voce@email.com', span: 'auto' },
+        { label: 'Telefone', ph: '(00) 00000-0000', span: 'auto' },
+      ],
+      sacTypes: ['Sugestão', 'Crítica', 'Elogio'],
+    };
+  }
+}
+</script>
+</body>
+</html>
