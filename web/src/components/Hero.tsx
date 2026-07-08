@@ -6,13 +6,13 @@ import Link from "next/link";
 
 const SLIDES = [
   {
-    desktop: "/assets/banner1-paes.png",
-    mobile: "/assets/banner1-paes-mobile.png",
+    desktop: "/assets/banner1-paes.jpg",
+    mobile: "/assets/banner1-paes-mobile.jpg",
     alt: "Pães e quitandas Kero+ — tradição e qualidade fabricada em cada lote",
   },
   {
-    desktop: "/assets/banner2-salgados.png",
-    mobile: "/assets/banner2-salgados-mobile.png",
+    desktop: "/assets/banner2-salgados.jpg",
+    mobile: "/assets/banner2-salgados-mobile.jpg",
     alt: "Salgados congelados Kero+ — coxinha, risole, pastel e empanados prontos para fritar",
   },
 ];

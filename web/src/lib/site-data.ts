@@ -37,7 +37,7 @@ export const linhas: Linha[] = [
     tag: "Linha de Pães",
     title: "Pães",
     desc: "Do francês ao mandi — casca crocante, miolo macio, congelado no ponto certo.",
-    img: "/assets/produtos/p03-pao-frances.png",
+    img: "/assets/produtos/p03-pao-frances.jpg",
     alt: "Cesto de pães franceses dourados",
     href: "/produtos#paes",
   },

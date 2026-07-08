@@ -15,7 +15,7 @@ export const categorias: Categoria[] = [
     tag: "Linha de Pães",
     intro: "Do francês ao mandi — casca crocante, miolo macio, fermentação no ponto certo.",
     produtos: [
-      { name: "Pão Francês", img: "/assets/produtos/p03-pao-frances.png", alt: "Pão Francês — Kero+ Pães Congelados" },
+      { name: "Pão Francês", img: "/assets/produtos/p03-pao-frances.jpg", alt: "Pão Francês — Kero+ Pães Congelados" },
       { name: "Pão Baguete", img: "/assets/produtos/p04-pao-baguete.jpg", alt: "Pão Baguete — Kero+ Pães Congelados" },
       { name: "Pão Amanteigado", img: "/assets/produtos/p05-pao-amanteigado.jpg", alt: "Pão Amanteigado — Kero+ Pães Congelados" },
       { name: "Pão Hotdog", img: "/assets/produtos/p16-pao-hotdog.jpg", alt: "Pão Hotdog — Kero+ Pães Congelados" },
