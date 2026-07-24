@@ -85,9 +85,9 @@ export default function MapaAtuacao() {
             O Kero+ está perto de você
           </h2>
           <p className="mt-4 text-[15px] leading-relaxed text-cream/80">
-            Matriz em Goiânia (GO) e filial em Rondonópolis (MT). Atendemos a
-            região metropolitana de Goiânia, o Sudoeste e o Centro-Oeste de
-            Goiás, o entorno de Brasília e o Mato Grosso.
+            Matriz em Goiânia (GO) e filial em Rondonópolis (MT). Rotas de
+            entrega ativas em mais de 50 cidades de Goiás, no entorno de
+            Brasília (DF) e no oeste da Bahia.
           </p>
         </div>
 

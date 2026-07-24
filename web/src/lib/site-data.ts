@@ -125,14 +125,87 @@ export type City = {
   hq?: boolean;
 };
 
-// Unidades Kero+ (matriz + filial) e principais regiões atendidas — catálogo oficial 2026.
+// Unidades Kero+ (matriz + filial) e cidades com rota de entrega ativa — planilha "Rotas Kero Mais" (jul/2026).
 export const cities: City[] = [
   { name: "Goiânia, GO", sub: "Matriz & fábrica · Jardim Europa", lat: -16.6869, lng: -49.2648, hq: true },
   { name: "Rondonópolis, MT", sub: "Filial · Centro", lat: -16.4706, lng: -54.6356 },
+
+  // Rota Goiás-GO
+  { name: "Goianira, GO", sub: "Rota Goiás", lat: -16.499, lng: -49.421 },
+  { name: "Caturaí, GO", sub: "Rota Goiás", lat: -16.383, lng: -49.708 },
+  { name: "Inhumas, GO", sub: "Rota Goiás", lat: -16.359, lng: -49.495 },
+  { name: "Itaberaí, GO", sub: "Rota Goiás", lat: -16.020, lng: -49.813 },
+  { name: "Goiás, GO", sub: "Rota Goiás", lat: -15.933, lng: -50.140 },
+
+  // Rota Aparecida de Goiânia
   { name: "Aparecida de Goiânia, GO", sub: "Região metropolitana", lat: -16.8198, lng: -49.2469 },
-  { name: "Anápolis, GO", sub: "Atendimento", lat: -16.3267, lng: -48.9526 },
+  { name: "Hidrolândia, GO", sub: "Rota Aparecida de Goiânia", lat: -16.968, lng: -49.228 },
+
+  // Entorno de Brasília
+  { name: "Brasília, DF", sub: "Entorno de Brasília", lat: -15.7939, lng: -47.8828 },
+  { name: "Gama, DF", sub: "Entorno de Brasília", lat: -16.021, lng: -48.062 },
+  { name: "Valparaíso de Goiás, GO", sub: "Entorno de Brasília", lat: -16.0655, lng: -47.9786 },
+  { name: "Cidade Ocidental, GO", sub: "Entorno de Brasília", lat: -16.078, lng: -47.933 },
+  { name: "Luziânia, GO", sub: "Entorno de Brasília", lat: -16.252, lng: -47.950 },
+
+  // Rota Senador Canedo
+  { name: "Senador Canedo, GO", sub: "Rota Senador Canedo", lat: -16.703, lng: -49.093 },
+  { name: "Gameleira de Goiás, GO", sub: "Rota Senador Canedo", lat: -16.485, lng: -48.645 },
+
+  // Rota Rio Verde
   { name: "Rio Verde, GO", sub: "Sudoeste goiano", lat: -17.7975, lng: -50.9266 },
-  { name: "Brasília, DF", sub: "Entorno", lat: -15.7939, lng: -47.8828 },
+  { name: "Santo Antônio da Barra, GO", sub: "Rota Rio Verde", lat: -17.559, lng: -50.635 },
+  { name: "Montividiu, GO", sub: "Rota Rio Verde", lat: -17.434, lng: -51.169 },
+
+  // Rota Barreiras-BA
+  { name: "Flores de Goiás, GO", sub: "Rota Barreiras-BA", lat: -14.453, lng: -47.062 },
+  { name: "Simolândia, GO", sub: "Rota Barreiras-BA", lat: -14.477, lng: -46.482 },
+  { name: "Posse, GO", sub: "Rota Barreiras-BA", lat: -14.093, lng: -46.369 },
+  { name: "Iaciara, GO", sub: "Rota Barreiras-BA", lat: -14.098, lng: -46.627 },
+  { name: "Luís Eduardo Magalhães, BA", sub: "Rota Barreiras-BA", lat: -12.090, lng: -45.798 },
+  { name: "Barreiras, BA", sub: "Rota Barreiras-BA", lat: -12.152, lng: -44.990 },
+  { name: "São Desidério, BA", sub: "Rota Barreiras-BA", lat: -12.363, lng: -44.973 },
+
+  // Rota Mineiros
+  { name: "Jataí, GO", sub: "Rota Mineiros", lat: -17.881, lng: -51.714 },
+  { name: "Perolândia, GO", sub: "Rota Mineiros", lat: -17.759, lng: -52.036 },
+  { name: "Mineiros, GO", sub: "Rota Mineiros", lat: -17.569, lng: -52.550 },
+  { name: "Portelândia, GO", sub: "Rota Mineiros", lat: -17.335, lng: -52.680 },
+
+  // Rota Quirinópolis
+  { name: "Acreúna, GO", sub: "Rota Quirinópolis", lat: -17.395, lng: -50.384 },
+  { name: "Santa Helena de Goiás, GO", sub: "Rota Quirinópolis", lat: -17.813, lng: -50.598 },
+  { name: "Turvelândia, GO", sub: "Rota Quirinópolis", lat: -17.706, lng: -50.194 },
+  { name: "Maurilândia, GO", sub: "Rota Quirinópolis", lat: -17.720, lng: -50.398 },
+  { name: "Quirinópolis, GO", sub: "Rota Quirinópolis", lat: -18.448, lng: -50.451 },
+  { name: "Caçu, GO", sub: "Rota Quirinópolis", lat: -18.557, lng: -51.126 },
+  { name: "Itarumã, GO", sub: "Rota Quirinópolis", lat: -18.653, lng: -51.322 },
+  { name: "Cachoeira Alta, GO", sub: "Rota Quirinópolis", lat: -18.939, lng: -50.987 },
+  { name: "Paranaiguara, GO", sub: "Rota Quirinópolis", lat: -18.937, lng: -50.588 },
+  { name: "São Simão, GO", sub: "Rota Quirinópolis", lat: -19.006, lng: -50.554 },
+  { name: "Indiara, GO", sub: "Rota Quirinópolis", lat: -17.221, lng: -50.221 },
+  { name: "Edéia, GO", sub: "Rota Quirinópolis", lat: -17.343, lng: -49.943 },
+
+  // Rota Palmeiras
+  { name: "Guapó, GO", sub: "Rota Palmeiras", lat: -16.986, lng: -49.780 },
+  { name: "Varjão, GO", sub: "Rota Palmeiras", lat: -17.050, lng: -49.619 },
+  { name: "Cezarina, GO", sub: "Rota Palmeiras", lat: -17.033, lng: -49.575 },
+  { name: "Palmeiras de Goiás, GO", sub: "Rota Palmeiras", lat: -16.802, lng: -49.928 },
+  { name: "Turvânia, GO", sub: "Rota Palmeiras", lat: -16.310, lng: -49.905 },
+  { name: "Firminópolis, GO", sub: "Rota Palmeiras", lat: -16.605, lng: -50.020 },
+  { name: "Nazário, GO", sub: "Rota Palmeiras", lat: -16.660, lng: -49.821 },
+  { name: "Santa Bárbara de Goiás, GO", sub: "Rota Palmeiras", lat: -16.741, lng: -49.938 },
+
+  // Rota Aragoiânia
+  { name: "Aragoiânia, GO", sub: "Rota Aragoiânia", lat: -16.898, lng: -49.559 },
+
+  // Rota Cristalina
+  { name: "Cristianópolis, GO", sub: "Rota Cristalina", lat: -17.088, lng: -48.638 },
+  { name: "Santa Cruz de Goiás, GO", sub: "Rota Cristalina", lat: -17.191, lng: -48.581 },
+  { name: "Palmelo, GO", sub: "Rota Cristalina", lat: -17.148, lng: -48.548 },
+  { name: "Pires do Rio, GO", sub: "Rota Cristalina", lat: -17.301, lng: -48.278 },
+  { name: "Ipameri, GO", sub: "Rota Cristalina", lat: -17.723, lng: -48.161 },
+  { name: "Cristalina, GO", sub: "Rota Cristalina", lat: -16.768, lng: -47.613 },
 ];
 
 // ---- Contato real (catálogo oficial 2026) -----------------------------------
