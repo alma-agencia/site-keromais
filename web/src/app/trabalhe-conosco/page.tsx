@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     "Faça parte do time Kero+ Pães Congelados — fábrica, administrativo e vendas, em Goiânia (GO) e Rondonópolis (MT). Envie o seu currículo pelo WhatsApp.",
 };
 
-const candidaturaHref = `https://wa.me/${contato.whatsappComercial.phone}?text=${encodeURIComponent(
+const candidaturaHref = `https://wa.me/${contato.whatsappRH.phone}?text=${encodeURIComponent(
   "Olá! Tenho interesse em fazer parte da equipe Kero+. Gostaria de enviar o meu currículo.",
 )}`;
 

@@ -214,6 +214,7 @@ export const contato = {
   telefoneFixo: { display: "(62) 3990-3012", href: "tel:+556239903012" },
   whatsappComercial: { display: "(62) 99958-7865", phone: "5562999587865" },
   whatsappRondonopolis: { display: "(66) 99628-9616", phone: "5566996289616" },
+  whatsappRH: { display: "(62) 99240-1631", phone: "5562992401631" },
   instagram: {
     display: "@keromaispaescongelados",
     href: "https://instagram.com/keromaispaescongelados",
