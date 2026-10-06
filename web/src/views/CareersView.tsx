@@ -1,25 +1,19 @@
-import type { Metadata } from "next";
 import Image from "next/image";
-import { contato } from "@/lib/site-data";
 import PageHero from "@/components/PageHero";
+import type { Locale } from "@/i18n/config";
+import { getDict } from "@/i18n/dictionaries";
+import { contato, whatsappUrl } from "@/lib/site-data";
 
-export const metadata: Metadata = {
-  title: "Trabalhe Conosco",
-  description:
-    "Faça parte do time Kero+ Pães Congelados — fábrica, administrativo e vendas, em Goiânia (GO) e Rondonópolis (MT). Envie o seu currículo pelo WhatsApp.",
-};
+export default function CareersView({ lang }: { lang: Locale }) {
+  const t = getDict(lang).careers;
+  const applyHref = whatsappUrl(contato.whatsappRH.phone, t.message);
 
-const candidaturaHref = `https://wa.me/${contato.whatsappRH.phone}?text=${encodeURIComponent(
-  "Olá! Tenho interesse em fazer parte da equipe Kero+. Gostaria de enviar o meu currículo.",
-)}`;
-
-export default function TrabalheConoscoPage() {
   return (
     <>
       <PageHero
-        eyebrow="Trabalhe Conosco"
-        title="Faça parte do nosso time"
-        subtitle="Há 10 anos a Kero+ cresce com gente boa — na fábrica, no administrativo e no comercial."
+        eyebrow={t.hero.eyebrow}
+        title={t.hero.title}
+        subtitle={t.hero.subtitle}
       />
 
       <section className="bg-cream px-6 py-16 sm:px-10 md:py-24">
@@ -27,7 +21,7 @@ export default function TrabalheConoscoPage() {
           <div className="relative aspect-[3/2] overflow-hidden rounded-card shadow-photo">
             <Image
               src="/assets/trabalhe/equipe-kero.jpg"
-              alt="Equipe Kero+ — pessoas da fábrica, do administrativo e do comercial"
+              alt={t.imgAlt}
               fill
               priority
               sizes="(max-width: 768px) 100vw, 55vw"
@@ -38,24 +32,19 @@ export default function TrabalheConoscoPage() {
           <div>
             <p className="mb-4 inline-flex items-center gap-2.5 text-xs font-semibold uppercase tracking-[3px] text-cocoa">
               <span className="h-px w-9 bg-tan" aria-hidden="true" />
-              Vem com a gente
+              {t.eyebrow}
             </p>
             <h2 className="font-display text-[clamp(26px,3.4vw,38px)] font-extrabold leading-[1.15] text-balance text-crust">
-              Gente boa que faz a qualidade acontecer
+              {t.title}
             </h2>
-            <p className="mt-4 text-[16px] leading-relaxed text-cocoa">
-              Da produção na fábrica ao administrativo e ao time de vendas, é o
-              nosso pessoal que assina a qualidade Kero+ todos os dias. Tem
-              vontade de crescer com a gente, em Goiânia (GO) ou Rondonópolis
-              (MT)? Manda o seu currículo.
-            </p>
+            <p className="mt-4 text-[16px] leading-relaxed text-cocoa">{t.body}</p>
             <a
-              href={candidaturaHref}
+              href={applyHref}
               target="_blank"
               rel="noopener noreferrer"
               className="mt-7 inline-flex items-center gap-2.5 rounded-btn bg-gold px-7 py-4 text-[13px] font-bold uppercase tracking-[1.5px] text-crust transition-colors hover:bg-crust hover:text-cream"
             >
-              Enviar currículo pelo WhatsApp
+              {t.cta}
               <span aria-hidden="true">→</span>
             </a>
           </div>

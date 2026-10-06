@@ -3,22 +3,35 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import "leaflet/dist/leaflet.css";
-import { cities, contato, type City } from "@/lib/site-data";
+import { fmt, htmlLang, type Locale } from "@/i18n/config";
+import type { Dict } from "@/i18n/dictionaries";
+import { pathFor } from "@/i18n/routes";
+import { contato, whatsappUrl, type LocalizedCity } from "@/lib/site-data";
 
-const sortedCities = [...cities].sort((a, b) => a.name.localeCompare(b.name, "pt-BR"));
+type City = LocalizedCity;
 
-export default function MapaAtuacao() {
+export default function MapaAtuacao({
+  lang,
+  t,
+  cities,
+}: {
+  lang: Locale;
+  t: Dict["map"];
+  cities: LocalizedCity[];
+}) {
+  const sortedCities = useMemo(
+    () => [...cities].sort((a, b) => a.name.localeCompare(b.name, htmlLang[lang])),
+    [cities, lang],
+  );
   const mapEl = useRef<HTMLDivElement>(null);
   const [query, setQuery] = useState("");
   const [selected, setSelected] = useState<City | null>(null);
-  const selectedRef = useRef<City | null>(null);
-  selectedRef.current = selected;
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
     if (!q) return sortedCities;
     return sortedCities.filter((c) => c.name.toLowerCase().includes(q));
-  }, [query]);
+  }, [query, sortedCities]);
 
   // Close on Escape
   useEffect(() => {
@@ -39,8 +52,10 @@ export default function MapaAtuacao() {
   }, [selected]);
 
   function waLink(city: City) {
-    const msg = `Olá! Vi que a Kero+ atende ${city.name} e gostaria de saber mais sobre como levar os produtos até a minha região.`;
-    return `https://wa.me/${contato.whatsappComercial.phone}?text=${encodeURIComponent(msg)}`;
+    return whatsappUrl(
+      contato.whatsappComercial.phone,
+      fmt(t.popup.message, { city: city.name }),
+    );
   }
 
   useEffect(() => {
@@ -97,6 +112,8 @@ export default function MapaAtuacao() {
       const node = el as HTMLDivElement & { _kpInit?: boolean };
       node._kpInit = false;
     };
+    // The map is built once; city data and labels never change for a given page.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -110,23 +127,21 @@ export default function MapaAtuacao() {
           <div className="mx-auto mb-12 max-w-[640px] text-center">
             <p className="mb-4 inline-flex items-center justify-center gap-2.5 text-xs font-semibold uppercase tracking-[3px] text-gold">
               <span className="h-px w-7 bg-gold" aria-hidden="true" />
-              Onde estamos · Atendimento
+              {t.eyebrow}
               <span className="h-px w-7 bg-gold" aria-hidden="true" />
             </p>
             <h2 className="font-display text-[clamp(30px,3.8vw,48px)] font-extrabold leading-[1.1] text-balance">
-              O Kero+ está perto de você
+              {t.title}
             </h2>
             <p className="mt-4 text-[15px] leading-relaxed text-cream/80">
-              Matriz em Goiânia (GO) e filial em Rondonópolis (MT). Rotas de
-              entrega ativas em mais de 50 cidades de Goiás, no entorno de
-              Brasília (DF) e no oeste da Bahia.
+              {t.intro}
             </p>
           </div>
 
           <div className="mx-auto max-w-[860px]">
             <div className="flex flex-col rounded-card border border-gold/20 bg-cream/[0.06] p-5 sm:p-7">
               <p className="mb-[18px] text-[11px] font-bold uppercase tracking-[2px] text-gold">
-                Busque sua cidade
+                {t.searchTitle}
               </p>
 
               {/* Search */}
@@ -146,8 +161,8 @@ export default function MapaAtuacao() {
                   type="search"
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
-                  placeholder="Digite o nome da sua cidade…"
-                  aria-label="Buscar cidade atendida pela Kero+"
+                  placeholder={t.searchPlaceholder}
+                  aria-label={t.searchAria}
                   className="w-full rounded-btn border border-gold/25 bg-cream/[0.08] py-3.5 pl-11 pr-4 text-[14px] text-cream placeholder:text-cream/45 outline-none transition-colors focus:border-gold focus:ring-2 focus:ring-gold/30"
                 />
               </div>
@@ -157,18 +172,18 @@ export default function MapaAtuacao() {
                 {filtered.length === 0 ? (
                   <li className="flex flex-col items-center gap-3 px-5 py-7 text-center">
                     <p className="text-[13.5px] leading-relaxed text-cream/70">
-                      Não encontramos essa cidade na nossa lista — mas isso não
-                      significa que não atendemos. Fale com a gente!
+                      {t.notFound}
                     </p>
                     <a
-                      href={`https://wa.me/${contato.whatsappComercial.phone}?text=${encodeURIComponent(
-                        `Olá! Gostaria de saber se a Kero+ entrega em ${query || "minha cidade"}.`,
-                      )}`}
+                      href={whatsappUrl(
+                        contato.whatsappComercial.phone,
+                        fmt(t.askMessage, { city: query.trim() || t.askFallbackCity }),
+                      )}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="rounded-btn bg-gold px-5 py-2.5 text-[12px] font-bold uppercase tracking-[1.2px] text-crust transition-colors hover:bg-cream"
                     >
-                      Perguntar no WhatsApp
+                      {t.askWhatsapp}
                     </a>
                   </li>
                 ) : (
@@ -183,7 +198,7 @@ export default function MapaAtuacao() {
                           {c.name}
                           {c.hq && (
                             <span className="ml-2 text-[10px] font-bold uppercase tracking-[1px] text-gold">
-                              Matriz
+                              {t.hqBadge}
                             </span>
                           )}
                         </span>
@@ -200,20 +215,20 @@ export default function MapaAtuacao() {
                 ref={mapEl}
                 className="relative z-0 min-h-[380px] flex-1 overflow-hidden rounded-panel"
                 role="img"
-                aria-label="Mapa do Centro-Oeste com a matriz da Kero+ em Goiânia, a filial em Rondonópolis (MT) e as cidades atendidas em Goiás, Distrito Federal e Bahia"
+                aria-label={t.mapAria}
               />
               <div className="mt-5 flex flex-col gap-3.5 sm:flex-row">
                 <Link
-                  href="/comercial"
+                  href={pathFor("commercial", lang)}
                   className="flex-1 rounded-btn bg-gold px-5 py-3.5 text-center text-[12.5px] font-bold uppercase tracking-[1.2px] text-crust transition-colors hover:bg-cream"
                 >
-                  Seja um parceiro comercial
+                  {t.ctaPartner}
                 </Link>
                 <Link
-                  href="/comercial"
+                  href={pathFor("commercial", lang)}
                   className="flex-1 rounded-btn border border-gold/45 px-5 py-3.5 text-center text-[12.5px] font-bold uppercase tracking-[1.2px] text-gold transition-colors hover:border-gold hover:bg-gold/10"
                 >
-                  Onde comprar (SAC)
+                  {t.ctaWhere}
                 </Link>
               </div>
             </div>
@@ -226,7 +241,7 @@ export default function MapaAtuacao() {
         <div
           role="dialog"
           aria-modal="true"
-          aria-label={`Cidade: ${selected.name}`}
+          aria-label={fmt(t.popup.dialogAria, { city: selected.name })}
           className="fixed inset-0 z-50 flex items-center justify-center p-6 bg-crust/60 backdrop-blur-sm"
           onClick={() => setSelected(null)}
         >
@@ -237,7 +252,7 @@ export default function MapaAtuacao() {
             <button
               type="button"
               onClick={() => setSelected(null)}
-              aria-label="Fechar"
+              aria-label={t.popup.close}
               className="absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-full text-cocoa transition-colors hover:bg-panel hover:text-crust"
             >
               <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
@@ -246,14 +261,13 @@ export default function MapaAtuacao() {
             </button>
 
             <p className="mb-2 text-[11px] font-semibold uppercase tracking-[1.5px] text-cocoa">
-              {selected.sub ?? "Kero+ Pães Congelados"}
+              {selected.sub}
             </p>
             <h3 className="font-display text-[22px] font-extrabold leading-[1.2] text-crust">
-              Atendemos {selected.name}!
+              {fmt(t.popup.title, { city: selected.name })}
             </h3>
             <p className="mt-3 text-[14.5px] leading-relaxed text-cocoa">
-              Fale com nosso time comercial pelo WhatsApp e descubra como
-              levar os produtos Kero+ até a sua padaria ou negócio.
+              {t.popup.body}
             </p>
 
             <a
@@ -262,7 +276,7 @@ export default function MapaAtuacao() {
               rel="noopener noreferrer"
               className="mt-6 flex items-center justify-center gap-2.5 rounded-btn bg-gold px-7 py-4 text-[13px] font-bold uppercase tracking-[1.5px] text-crust transition-colors hover:bg-crust hover:text-cream"
             >
-              Fale Conosco
+              {t.popup.cta}
               <span aria-hidden="true">→</span>
             </a>
 
@@ -271,7 +285,7 @@ export default function MapaAtuacao() {
               onClick={() => setSelected(null)}
               className="mt-3 w-full rounded-btn border border-tan/30 py-3 text-[12.5px] font-semibold text-cocoa transition-colors hover:border-tan hover:text-crust"
             >
-              Fechar
+              {t.popup.close}
             </button>
           </div>
         </div>

@@ -1,3 +1,16 @@
+import type { SplitTitle } from "@/i18n/dictionaries/types";
+
+/** Two-line page title: plain first line + gold italic accent on the second. */
+export function SplitHeading({ title }: { title: SplitTitle }) {
+  return (
+    <>
+      {title.line1}
+      <br />
+      <span className="font-medium italic text-gold">{title.accent}</span>
+    </>
+  );
+}
+
 export default function PageHero({
   eyebrow,
   title,

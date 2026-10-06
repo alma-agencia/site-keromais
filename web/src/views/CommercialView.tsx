@@ -1,13 +1,8 @@
-import type { Metadata } from "next";
 import PageHero from "@/components/PageHero";
 import ComercialForm from "@/components/ComercialForm";
-import { contato } from "@/lib/site-data";
-
-export const metadata: Metadata = {
-  title: "Comercial",
-  description:
-    "Fale com o time comercial da Kero+ Pães Congelados: parcerias, pedidos e atendimento por WhatsApp, telefone ou formulário. Matriz em Goiânia e filial em Rondonópolis.",
-};
+import type { Locale } from "@/i18n/config";
+import { getDict } from "@/i18n/dictionaries";
+import { contato, whatsappUrl } from "@/lib/site-data";
 
 const svg = "h-[18px] w-[18px]";
 const icons: Record<string, React.ReactNode> = {
@@ -37,28 +32,6 @@ const icons: Record<string, React.ReactNode> = {
 };
 
 type Channel = { icon: string; label: string; value: string; href?: string };
-
-const channels: Channel[] = [
-  {
-    icon: "whatsapp",
-    label: "WhatsApp comercial",
-    value: contato.whatsappComercial.display,
-    href: `https://wa.me/${contato.whatsappComercial.phone}`,
-  },
-  {
-    icon: "phone",
-    label: "Telefone",
-    value: contato.telefoneFixo.display,
-    href: contato.telefoneFixo.href,
-  },
-  {
-    icon: "instagram",
-    label: "Instagram",
-    value: contato.instagram.display,
-    href: contato.instagram.href,
-  },
-  { icon: "clock", label: "Horário", value: contato.horario },
-];
 
 function ChannelCard({ c }: { c: Channel }) {
   const inner = (
@@ -92,33 +65,54 @@ function ChannelCard({ c }: { c: Channel }) {
   );
 }
 
-export default function ComercialPage() {
+export default function CommercialView({ lang }: { lang: Locale }) {
+  const t = getDict(lang).commercial;
+
+  const channels: Channel[] = [
+    {
+      icon: "whatsapp",
+      label: t.channels.whatsapp,
+      value: contato.whatsappComercial.display,
+      href: whatsappUrl(contato.whatsappComercial.phone),
+    },
+    {
+      icon: "phone",
+      label: t.channels.phone,
+      value: contato.telefoneFixo.display,
+      href: contato.telefoneFixo.href,
+    },
+    {
+      icon: "instagram",
+      label: t.channels.instagram,
+      value: contato.instagram.display,
+      href: contato.instagram.href,
+    },
+    { icon: "clock", label: t.channels.hours, value: t.hours },
+  ];
+
   return (
     <>
       <PageHero
-        eyebrow="Atendimento Comercial"
-        title="Fale com a gente"
-        subtitle="Parcerias comerciais, pedidos e suporte — por WhatsApp, telefone ou pelo formulário."
+        eyebrow={t.hero.eyebrow}
+        title={t.hero.title}
+        subtitle={t.hero.subtitle}
       />
 
       <section className="bg-cream px-6 py-16 sm:px-10 md:py-20">
         <div className="mx-auto grid max-w-[1080px] gap-12 md:grid-cols-[0.85fr_1.15fr] md:gap-16">
           <div>
             <h2 className="font-display text-[clamp(26px,3.2vw,36px)] font-extrabold leading-[1.15] text-balance text-crust">
-              Pronto para uma parceria de sucesso?
+              {t.title}
             </h2>
-            <p className="mt-4 text-[16px] leading-relaxed text-cocoa">
-              Vamos juntos. Fale com o nosso time comercial pelos canais abaixo
-              ou preencha o formulário — retornamos o seu contato o quanto antes.
-            </p>
+            <p className="mt-4 text-[16px] leading-relaxed text-cocoa">{t.body}</p>
             <div className="mt-7 flex flex-col gap-3.5">
               {channels.map((c) => (
-                <ChannelCard key={c.label} c={c} />
+                <ChannelCard key={c.icon} c={c} />
               ))}
             </div>
           </div>
 
-          <ComercialForm />
+          <ComercialForm t={t.form} />
         </div>
       </section>
     </>

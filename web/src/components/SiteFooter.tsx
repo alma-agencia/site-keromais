@@ -1,8 +1,44 @@
 import Link from "next/link";
 import Image from "next/image";
-import { footerCols } from "@/lib/site-data";
+import type { Locale } from "@/i18n/config";
+import { getDict } from "@/i18n/dictionaries";
+import { pathFor } from "@/i18n/routes";
+import { getCategorias } from "@/lib/produtos-data";
+import { contato, whatsappUrl } from "@/lib/site-data";
 
-export default function SiteFooter() {
+type FooterLink = { label: string; href: string };
+
+export default function SiteFooter({ lang }: { lang: Locale }) {
+  const t = getDict(lang).footer;
+
+  const cols: { title: string; links: FooterLink[] }[] = [
+    {
+      title: t.cols.institutional,
+      links: [
+        { label: t.links.about, href: pathFor("about", lang) },
+        { label: t.links.careers, href: pathFor("careers", lang) },
+        { label: t.links.privacy, href: pathFor("privacy", lang) },
+        { label: t.links.quality, href: pathFor("quality", lang) },
+      ],
+    },
+    {
+      title: t.cols.products,
+      links: getCategorias(lang).map((c) => ({
+        label: c.title,
+        href: pathFor("products", lang, c.id),
+      })),
+    },
+    {
+      title: t.cols.service,
+      links: [
+        { label: t.links.commercialSac, href: pathFor("commercial", lang) },
+        { label: t.links.contactUs, href: whatsappUrl(contato.whatsappComercial.phone) },
+        { label: contato.telefoneFixo.display, href: contato.telefoneFixo.href },
+        { label: contato.instagram.display, href: contato.instagram.href },
+      ],
+    },
+  ];
+
   return (
     <footer className="bg-bark px-6 pb-9 pt-16 text-cream/70 sm:px-10">
       <div className="mx-auto max-w-[1280px]">
@@ -10,19 +46,16 @@ export default function SiteFooter() {
           <div>
             <Image
               src="/assets/logo-kero-light.png"
-              alt="Kero+ Pães Congelados"
+              alt={t.logoAlt}
               width={85}
               height={72}
               className="mb-4 h-[72px] w-auto"
             />
-            <p className="max-w-[280px] text-[13.5px] leading-relaxed">
-              Fabricando qualidade em cada lote. Pães congelados artesanais
-              com a tradição que a sua mesa merece.
-            </p>
+            <p className="max-w-[280px] text-[13.5px] leading-relaxed">{t.tagline}</p>
             <div className="mt-6 flex flex-col gap-4 text-[12.5px] leading-relaxed sm:flex-row sm:gap-8 md:flex-col md:gap-4">
               <p className="not-italic">
                 <span className="font-semibold uppercase tracking-[1px] text-gold">
-                  Matriz
+                  {t.hq}
                 </span>
                 <br />
                 R. Luxemburgo, 689 · Jardim Europa
@@ -31,7 +64,7 @@ export default function SiteFooter() {
               </p>
               <p className="not-italic">
                 <span className="font-semibold uppercase tracking-[1px] text-gold">
-                  Filial
+                  {t.branch}
                 </span>
                 <br />
                 Av. Tiradentes, 1621 · Centro
@@ -41,7 +74,7 @@ export default function SiteFooter() {
             </div>
           </div>
 
-          {footerCols.map((col) => (
+          {cols.map((col) => (
             <div key={col.title}>
               <h2 className="mb-[18px] text-[11px] font-bold uppercase tracking-[2px] text-gold">
                 {col.title}
@@ -63,11 +96,9 @@ export default function SiteFooter() {
         </div>
 
         <div className="flex flex-wrap items-center justify-between gap-3 pt-6">
-          <span className="text-xs text-cream/60">
-            © 2026 Kero+ Pães Congelados. Todos os direitos reservados.
-          </span>
+          <span className="text-xs text-cream/60">{t.rights}</span>
           <span className="text-xs font-semibold uppercase tracking-[2px] text-gold">
-            Fabricando Qualidade
+            {t.slogan}
           </span>
         </div>
       </div>

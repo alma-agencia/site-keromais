@@ -2,15 +2,19 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { fmt } from "@/i18n/config";
+import type { Dict } from "@/i18n/dictionaries";
 import type { Categoria, ProdutoItem } from "@/lib/produtos-data";
-import { contato } from "@/lib/site-data";
+import { contato, whatsappUrl } from "@/lib/site-data";
 
 export default function CategoriaProdutos({
   categoria,
+  t,
   tinted = false,
   priorityCount = 0,
 }: {
   categoria: Categoria;
+  t: Dict["products"]["popup"];
   tinted?: boolean;
   priorityCount?: number;
 }) {
@@ -33,8 +37,10 @@ export default function CategoriaProdutos({
   }, [selected]);
 
   function waLink(produto: ProdutoItem) {
-    const msg = `Olá! Vi o produto *${produto.name}* no site da Kero+ e gostaria de conhecer mais sobre o portfólio completo.`;
-    return `https://wa.me/${contato.whatsappComercial.phone}?text=${encodeURIComponent(msg)}`;
+    return whatsappUrl(
+      contato.whatsappComercial.phone,
+      fmt(t.message, { name: produto.name }),
+    );
   }
 
   return (
@@ -66,7 +72,7 @@ export default function CategoriaProdutos({
                   type="button"
                   className="group w-full text-left"
                   onClick={() => setSelected(p)}
-                  aria-label={`Ver detalhes: ${p.name}`}
+                  aria-label={fmt(t.detailsAria, { name: p.name })}
                 >
                   <div className="relative aspect-[4/5] overflow-hidden rounded-card border border-tan/15 bg-panel transition-colors duration-300 group-hover:border-gold">
                     <Image
@@ -93,7 +99,7 @@ export default function CategoriaProdutos({
         <div
           role="dialog"
           aria-modal="true"
-          aria-label={`Produto: ${selected.name}`}
+          aria-label={fmt(t.dialogAria, { name: selected.name })}
           className="fixed inset-0 z-50 flex items-center justify-center p-6 bg-crust/60 backdrop-blur-sm"
           onClick={() => setSelected(null)}
         >
@@ -105,7 +111,7 @@ export default function CategoriaProdutos({
             <button
               type="button"
               onClick={() => setSelected(null)}
-              aria-label="Fechar"
+              aria-label={t.close}
               className="absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-full text-cocoa transition-colors hover:bg-panel hover:text-crust"
             >
               <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
@@ -117,11 +123,10 @@ export default function CategoriaProdutos({
               {selected.name}
             </p>
             <h3 className="font-display text-[22px] font-extrabold leading-[1.2] text-crust">
-              Quer falar com nossa central de compras?
+              {t.title}
             </h3>
             <p className="mt-3 text-[14.5px] leading-relaxed text-cocoa">
-              Conheça nosso portfólio completo e descubra as melhores opções
-              para a vitrine da sua padaria.
+              {t.body}
             </p>
 
             <a
@@ -130,7 +135,7 @@ export default function CategoriaProdutos({
               rel="noopener noreferrer"
               className="mt-6 flex items-center justify-center gap-2.5 rounded-btn bg-gold px-7 py-4 text-[13px] font-bold uppercase tracking-[1.5px] text-crust transition-colors hover:bg-crust hover:text-cream"
             >
-              Fale Conosco
+              {t.cta}
               <span aria-hidden="true">→</span>
             </a>
 
@@ -139,7 +144,7 @@ export default function CategoriaProdutos({
               onClick={() => setSelected(null)}
               className="mt-3 w-full rounded-btn border border-tan/30 py-3 text-[12.5px] font-semibold text-cocoa transition-colors hover:border-tan hover:text-crust"
             >
-              Fechar
+              {t.close}
             </button>
           </div>
         </div>

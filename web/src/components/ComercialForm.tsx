@@ -1,16 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { contato } from "@/lib/site-data";
-
-const TIPOS = ["Parceria comercial", "Já sou cliente", "SAC / Feedback"];
+import { fmt } from "@/i18n/config";
+import type { Dict } from "@/i18n/dictionaries";
+import { contato, whatsappUrl } from "@/lib/site-data";
 
 const field =
   "w-full rounded-btn border border-tan/30 bg-cream px-3.5 py-3 font-body text-[14px] text-crust outline-none transition-[border-color,box-shadow] placeholder:text-cocoa/90 focus:border-tan focus:ring-2 focus:ring-gold/40";
 const labelCls =
   "mb-2 block text-[11px] font-semibold uppercase tracking-[1.5px] text-cocoa";
 
-export default function ComercialForm() {
+export default function ComercialForm({ t }: { t: Dict["commercial"]["form"] }) {
   const [sent, setSent] = useState(false);
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -18,16 +18,16 @@ export default function ComercialForm() {
     const fd = new FormData(e.currentTarget);
     const get = (k: string) => (fd.get(k) || "").toString().trim();
     const msg = [
-      `*Contato pelo site — ${get("tipo") || "Comercial"}*`,
-      get("nome") && `Nome: ${get("nome")}`,
-      get("empresa") && `Empresa: ${get("empresa")}`,
-      get("email") && `E-mail: ${get("email")}`,
-      get("telefone") && `Telefone: ${get("telefone")}`,
+      fmt(t.wa.title, { type: get("tipo") || t.wa.fallbackType }),
+      get("nome") && `${t.wa.name}: ${get("nome")}`,
+      get("empresa") && `${t.wa.company}: ${get("empresa")}`,
+      get("email") && `${t.wa.email}: ${get("email")}`,
+      get("telefone") && `${t.wa.phone}: ${get("telefone")}`,
       get("mensagem") && `\n${get("mensagem")}`,
     ]
       .filter(Boolean)
       .join("\n");
-    const url = `https://wa.me/${contato.whatsappComercial.phone}?text=${encodeURIComponent(msg)}`;
+    const url = whatsappUrl(contato.whatsappComercial.phone, msg);
     window.open(url, "_blank", "noopener,noreferrer");
     setSent(true);
   }
@@ -39,64 +39,64 @@ export default function ComercialForm() {
     >
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
         <label className="sm:col-span-2">
-          <span className={labelCls}>Nome completo</span>
-          <input name="nome" required placeholder="Seu nome" className={field} />
+          <span className={labelCls}>{t.name}</span>
+          <input name="nome" required placeholder={t.namePh} className={field} />
         </label>
         <label className="sm:col-span-2">
-          <span className={labelCls}>Empresa / Padaria</span>
+          <span className={labelCls}>{t.company}</span>
           <input
             name="empresa"
-            placeholder="Nome do seu negócio"
+            placeholder={t.companyPh}
             className={field}
           />
         </label>
         <label>
-          <span className={labelCls}>E-mail</span>
+          <span className={labelCls}>{t.email}</span>
           <input
             name="email"
             type="email"
-            placeholder="voce@email.com"
+            placeholder={t.emailPh}
             className={field}
           />
         </label>
         <label>
-          <span className={labelCls}>Telefone / WhatsApp</span>
+          <span className={labelCls}>{t.phone}</span>
           <input
             name="telefone"
             type="tel"
-            placeholder="(00) 00000-0000"
+            placeholder={t.phonePh}
             className={field}
           />
         </label>
 
         <fieldset className="sm:col-span-2">
-          <legend className={labelCls}>Tipo de contato</legend>
+          <legend className={labelCls}>{t.typeLegend}</legend>
           <div className="flex flex-wrap gap-2.5">
-            {TIPOS.map((t, i) => (
+            {t.types.map((type, i) => (
               <label
-                key={t}
+                key={type}
                 className="cursor-pointer rounded-full border border-tan/35 px-[18px] py-2 text-[12.5px] font-semibold text-crust transition-colors has-[:checked]:border-gold has-[:checked]:bg-gold has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-tan"
               >
                 <input
                   type="radio"
                   name="tipo"
-                  value={t}
+                  value={type}
                   defaultChecked={i === 0}
                   className="sr-only"
                 />
-                {t}
+                {type}
               </label>
             ))}
           </div>
         </fieldset>
 
         <label className="sm:col-span-2">
-          <span className={labelCls}>Mensagem</span>
+          <span className={labelCls}>{t.message}</span>
           <textarea
             name="mensagem"
             required
             rows={4}
-            placeholder="Conte o que você precisa…"
+            placeholder={t.messagePh}
             className={`${field} resize-y`}
           />
         </label>
@@ -105,7 +105,7 @@ export default function ComercialForm() {
           type="submit"
           className="rounded-btn bg-gold px-6 py-4 text-[13px] font-bold uppercase tracking-[1.5px] text-crust transition-colors hover:bg-crust hover:text-cream sm:col-span-2"
         >
-          Enviar pelo WhatsApp
+          {t.submit}
         </button>
       </div>
 
@@ -113,9 +113,7 @@ export default function ComercialForm() {
         className="mt-5 border-t border-tan/20 pt-4 text-[12px] leading-relaxed text-cocoa"
         aria-live="polite"
       >
-        {sent
-          ? "Abrimos o WhatsApp com a sua mensagem preenchida — é só tocar em enviar."
-          : "Ao enviar, abrimos o WhatsApp do nosso comercial com os seus dados já preenchidos. Usamos suas informações apenas para retornar o contato."}
+        {sent ? t.noteSent : t.noteIdle}
       </p>
     </form>
   );

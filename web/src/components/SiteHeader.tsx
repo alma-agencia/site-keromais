@@ -4,19 +4,27 @@ import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import { navItems, marqueeItems, contato } from "@/lib/site-data";
+import type { Locale } from "@/i18n/config";
+import type { Dict } from "@/i18n/dictionaries";
+import { pathFor, resolvePathname, type PageKey } from "@/i18n/routes";
+import { contato, whatsappUrl } from "@/lib/site-data";
+import LanguageSwitcher from "./LanguageSwitcher";
 
-const whatsappHref = `https://wa.me/${contato.whatsappComercial.phone}`;
+const whatsappHref = whatsappUrl(contato.whatsappComercial.phone);
 
-function keyForPath(pathname: string): string {
-  if (pathname === "/") return "home";
-  const item = navItems.find((n) => pathname.startsWith(n.href));
-  return item?.key ?? "home";
-}
+const NAV_KEYS = ["about", "products", "careers", "commercial"] as const satisfies readonly PageKey[];
 
-export default function SiteHeader() {
+export default function SiteHeader({
+  lang,
+  t,
+  marquee,
+}: {
+  lang: Locale;
+  t: Dict["header"];
+  marquee: string[];
+}) {
   const pathname = usePathname();
-  const activeKey = keyForPath(pathname);
+  const activePage = resolvePathname(pathname)?.page ?? "home";
 
   const headerRef = useRef<HTMLElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
@@ -35,10 +43,10 @@ export default function SiteHeader() {
     let raf = 0;
     let last: number | null = null;
     const speed = 40; // px/s
-    const step = (t: number) => {
-      if (last === null) last = t;
-      const dt = (t - last) / 1000;
-      last = t;
+    const step = (ts: number) => {
+      if (last === null) last = ts;
+      const dt = (ts - last) / 1000;
+      last = ts;
       if (!pausedRef.current) {
         xRef.current -= speed * dt;
         const half = track.scrollWidth / 2;
@@ -79,10 +87,12 @@ export default function SiteHeader() {
     return () => ro.disconnect();
   }, []);
 
-  // Close the mobile menu on navigation and on Escape.
-  useEffect(() => {
+  // Close the mobile menu on navigation (adjusting state during render, per React docs) and on Escape.
+  const [menuPath, setMenuPath] = useState(pathname);
+  if (menuPath !== pathname) {
+    setMenuPath(pathname);
     setMenuOpen(false);
-  }, [pathname]);
+  }
   useEffect(() => {
     if (!menuOpen) return;
     const onKey = (e: KeyboardEvent) => {
@@ -113,7 +123,7 @@ export default function SiteHeader() {
             className="inline-flex items-center will-change-transform"
             aria-hidden="true"
           >
-            {[...marqueeItems, ...marqueeItems].map((w, i) => (
+            {[...marquee, ...marquee].map((w, i) => (
               <span
                 key={i}
                 className="inline-flex items-center py-[7px] text-xs font-semibold uppercase tracking-[3px] text-gold"
@@ -128,13 +138,13 @@ export default function SiteHeader() {
         {/* Nav bar */}
         <div className="relative mx-auto flex max-w-[1280px] items-center justify-between gap-6 px-6 py-3 sm:px-10">
           <Link
-            href="/"
-            aria-label="Kero+ Pães Congelados — início"
+            href={pathFor("home", lang)}
+            aria-label={t.logoAria}
             className="flex shrink-0 items-center"
           >
             <Image
               src="/assets/logo-kero.png"
-              alt="Kero+ Pães Congelados"
+              alt={t.logoAlt}
               width={71}
               height={60}
               priority
@@ -144,12 +154,12 @@ export default function SiteHeader() {
 
           {/* Desktop nav */}
           <nav className="hidden items-center gap-1 lg:flex">
-            {navItems.map((item) => {
-              const isActive = item.key === activeKey;
+            {NAV_KEYS.map((key) => {
+              const isActive = key === activePage;
               return (
                 <Link
-                  key={item.key}
-                  href={item.href}
+                  key={key}
+                  href={pathFor(key, lang)}
                   aria-current={isActive ? "page" : undefined}
                   className={`relative rounded-nav px-3.5 py-2.5 text-[12.5px] font-semibold uppercase tracking-[1.2px] text-crust transition-colors ${
                     isActive
@@ -157,38 +167,50 @@ export default function SiteHeader() {
                       : "hover:bg-gold/15"
                   }`}
                 >
-                  {item.label}
+                  {t.nav[key]}
                 </Link>
               );
             })}
+            <LanguageSwitcher
+              lang={lang}
+              label={t.language}
+              menuLabel={t.languageMenuAria}
+            />
             <a
               href={whatsappHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="ml-2 rounded-nav bg-gold px-5 py-2.5 text-[12.5px] font-bold uppercase tracking-[1.2px] text-crust transition-colors hover:bg-crust hover:text-cream"
+              className="ml-1 rounded-nav bg-gold px-5 py-2.5 text-[12.5px] font-bold uppercase tracking-[1.2px] text-crust transition-colors hover:bg-crust hover:text-cream"
             >
-              Fale Conosco
+              {t.cta}
             </a>
           </nav>
 
-          {/* Mobile menu toggle */}
-          <button
-            type="button"
-            className="inline-flex h-11 w-11 items-center justify-center rounded-nav text-crust transition-colors hover:bg-gold/15 lg:hidden"
-            aria-expanded={menuOpen}
-            aria-controls="mobile-menu"
-            aria-label={menuOpen ? "Fechar menu" : "Abrir menu"}
-            onClick={() => setMenuOpen((v) => !v)}
-          >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path
-                d={menuOpen ? "M6 6l12 12M18 6L6 18" : "M4 7h16M4 12h16M4 17h16"}
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-              />
-            </svg>
-          </button>
+          {/* Mobile: language + menu toggle */}
+          <div className="flex items-center gap-1 lg:hidden">
+            <LanguageSwitcher
+              lang={lang}
+              label={t.language}
+              menuLabel={t.languageMenuAria}
+            />
+            <button
+              type="button"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-nav text-crust transition-colors hover:bg-gold/15"
+              aria-expanded={menuOpen}
+              aria-controls="mobile-menu"
+              aria-label={menuOpen ? t.menuClose : t.menuOpen}
+              onClick={() => setMenuOpen((v) => !v)}
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path
+                  d={menuOpen ? "M6 6l12 12M18 6L6 18" : "M4 7h16M4 12h16M4 17h16"}
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                />
+              </svg>
+            </button>
+          </div>
 
           {/* Mobile panel */}
           {menuOpen && (
@@ -197,12 +219,12 @@ export default function SiteHeader() {
               className="absolute inset-x-0 top-full border-b border-tan/20 bg-cream px-6 pb-5 pt-1 shadow-card-hover lg:hidden"
             >
               <ul className="flex flex-col">
-                {navItems.map((item) => {
-                  const isActive = item.key === activeKey;
+                {NAV_KEYS.map((key) => {
+                  const isActive = key === activePage;
                   return (
-                    <li key={item.key}>
+                    <li key={key}>
                       <Link
-                        href={item.href}
+                        href={pathFor(key, lang)}
                         aria-current={isActive ? "page" : undefined}
                         onClick={() => setMenuOpen(false)}
                         className={`relative block border-b border-tan/15 py-3.5 text-sm font-semibold uppercase tracking-[1.2px] text-crust ${
@@ -211,7 +233,7 @@ export default function SiteHeader() {
                             : ""
                         }`}
                       >
-                        {item.label}
+                        {t.nav[key]}
                       </Link>
                     </li>
                   );
@@ -224,7 +246,7 @@ export default function SiteHeader() {
                     onClick={() => setMenuOpen(false)}
                     className="block rounded-btn bg-gold px-5 py-3.5 text-center text-sm font-bold uppercase tracking-[1.2px] text-crust"
                   >
-                    Fale Conosco
+                    {t.cta}
                   </a>
                 </li>
               </ul>

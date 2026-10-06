@@ -1,8 +1,22 @@
 import Image from "next/image";
 import Link from "next/link";
-import type { Linha } from "@/lib/site-data";
 
-export default function LinhaCard({ linha }: { linha: Linha }) {
+export type LinhaCardData = {
+  tag: string;
+  title: string;
+  desc: string;
+  img: string;
+  alt: string;
+  href: string;
+};
+
+export default function LinhaCard({
+  linha,
+  exploreLabel,
+}: {
+  linha: LinhaCardData;
+  exploreLabel: string;
+}) {
   return (
     <Link
       href={linha.href}
@@ -28,7 +42,7 @@ export default function LinhaCard({ linha }: { linha: Linha }) {
           {linha.desc}
         </p>
         <span className="mt-auto inline-block self-start border-b-2 border-gold pb-1 text-xs font-bold uppercase tracking-[1px] text-crust">
-          Explorar a linha →
+          {exploreLabel}
         </span>
       </div>
     </Link>

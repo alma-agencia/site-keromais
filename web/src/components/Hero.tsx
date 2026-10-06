@@ -3,21 +3,22 @@
 import { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { fmt, type Locale } from "@/i18n/config";
+import type { Dict } from "@/i18n/dictionaries";
+import { pathFor } from "@/i18n/routes";
 
 const SLIDES = [
   {
     desktop: "/assets/banner1-paes.jpg",
     mobile: "/assets/banner1-paes-mobile.jpg",
-    alt: "Pães e quitandas Kero+ — tradição e qualidade fabricada em cada lote",
   },
   {
     desktop: "/assets/banner2-salgados.jpg",
     mobile: "/assets/banner2-salgados-mobile.jpg",
-    alt: "Salgados congelados Kero+ — coxinha, risole, pastel e empanados prontos para fritar",
   },
 ];
 
-export default function Hero() {
+export default function Hero({ lang, t }: { lang: Locale; t: Dict["hero"] }) {
   const [slide, setSlide] = useState(0);
   const count = SLIDES.length;
 
@@ -48,7 +49,7 @@ export default function Hero() {
         >
           <Image
             src={s.mobile}
-            alt={s.alt}
+            alt={t.slides[i].alt}
             fill
             sizes="100vw"
             className="object-cover md:hidden"
@@ -70,7 +71,7 @@ export default function Hero() {
       <button
         type="button"
         onClick={() => go(slide - 1)}
-        aria-label="Imagem anterior"
+        aria-label={t.prev}
         className="absolute left-4 top-1/2 z-[4] flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-cream/50 bg-ink/30 text-xl leading-none text-cream backdrop-blur-[2px] transition-colors hover:border-gold hover:bg-gold hover:text-crust"
       >
         ‹
@@ -78,7 +79,7 @@ export default function Hero() {
       <button
         type="button"
         onClick={() => go(slide + 1)}
-        aria-label="Próxima imagem"
+        aria-label={t.next}
         className="absolute right-4 top-1/2 z-[4] flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-cream/50 bg-ink/30 text-xl leading-none text-cream backdrop-blur-[2px] transition-colors hover:border-gold hover:bg-gold hover:text-crust"
       >
         ›
@@ -91,7 +92,7 @@ export default function Hero() {
             key={i}
             type="button"
             onClick={() => go(i)}
-            aria-label={`Ir para a imagem ${i + 1}`}
+            aria-label={fmt(t.goTo, { n: i + 1 })}
             aria-current={i === slide ? "true" : undefined}
             className="flex h-6 w-6 items-center justify-center"
           >
@@ -114,16 +115,16 @@ export default function Hero() {
                 "0 2px 24px color-mix(in srgb, var(--color-ink) 45%, transparent)",
             }}
           >
-            Tradição e Excelência
+            {t.title.line1}
             <br />
-            <span className="font-medium italic text-gold">na Sua Mesa</span>
+            <span className="font-medium italic text-gold">{t.title.accent}</span>
           </h1>
           <div className="mt-6 flex flex-wrap justify-center gap-3.5 md:justify-start">
             <Link
-              href="/produtos"
+              href={pathFor("products", lang)}
               className="inline-flex items-center gap-2.5 rounded-btn bg-gold px-7 py-4 text-[13px] font-bold uppercase tracking-[1.5px] text-crust transition-colors hover:bg-crust hover:text-cream"
             >
-              Conheça os Produtos
+              {t.cta}
               <span aria-hidden="true">→</span>
             </Link>
           </div>

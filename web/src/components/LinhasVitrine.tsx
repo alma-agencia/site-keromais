@@ -2,13 +2,23 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { linhas } from "@/lib/site-data";
-import LinhaCard from "./LinhaCard";
+import { fmt, type Locale } from "@/i18n/config";
+import type { Dict } from "@/i18n/dictionaries";
+import { pathFor } from "@/i18n/routes";
+import LinhaCard, { type LinhaCardData } from "./LinhaCard";
 
 const AUTOPLAY_MS = 4500;
 const SCROLL_PER_STEP = 200; // px of page scroll to advance one card
 
-export default function LinhasVitrine() {
+export default function LinhasVitrine({
+  lang,
+  t,
+  linhas,
+}: {
+  lang: Locale;
+  t: Dict["linhas"];
+  linhas: LinhaCardData[];
+}) {
   const sectionRef = useRef<HTMLElement>(null);
   const carouselRef = useRef<HTMLUListElement>(null);
   const activeRef = useRef(0);
@@ -135,21 +145,20 @@ export default function LinhasVitrine() {
           <div className="max-w-[560px]">
             <p className="mb-4 inline-flex items-center gap-2.5 text-xs font-semibold uppercase tracking-[3px] text-cocoa">
               <span className="h-px w-9 bg-tan" aria-hidden="true" />
-              Nossas Linhas
+              {t.eyebrow}
             </p>
             <h2 className="font-display text-[clamp(30px,3.8vw,48px)] font-extrabold leading-[1.1] text-balance text-crust">
-              Uma vitrine de sabores
+              {t.title}
             </h2>
             <p className="mt-3.5 max-w-[520px] text-[16.5px] leading-relaxed text-cocoa">
-              Seis linhas para a vitrine da sua padaria — pães, queijos, doces,
-              quintadas e salgados, todos congelados.
+              {t.subtitle}
             </p>
           </div>
           <Link
-            href="/produtos"
+            href={pathFor("products", lang)}
             className="shrink-0 rounded-btn bg-gold px-7 py-3.5 text-[13px] font-bold uppercase tracking-[1.5px] text-crust transition-colors hover:bg-crust hover:text-cream"
           >
-            Ver catálogo completo →
+            {t.catalogCta}
           </Link>
         </div>
 
@@ -164,7 +173,7 @@ export default function LinhasVitrine() {
                 key={l.title}
                 className="w-[80%] shrink-0 snap-start sm:w-[44%] lg:w-[30%]"
               >
-                <LinhaCard linha={l} />
+                <LinhaCard linha={l} exploreLabel={t.explore} />
               </li>
             ))}
           </ul>
@@ -173,7 +182,7 @@ export default function LinhasVitrine() {
           <button
             type="button"
             onClick={() => nav(-1)}
-            aria-label="Linha anterior"
+            aria-label={t.prev}
             className="absolute -left-5 top-[40%] z-10 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-tan/30 bg-cream/90 text-xl leading-none text-crust shadow-card-hover backdrop-blur-sm transition-colors hover:border-gold hover:bg-gold/15 lg:flex"
           >
             ‹
@@ -181,7 +190,7 @@ export default function LinhasVitrine() {
           <button
             type="button"
             onClick={() => nav(1)}
-            aria-label="Próxima linha"
+            aria-label={t.next}
             className="absolute -right-5 top-[40%] z-10 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-tan/30 bg-cream/90 text-xl leading-none text-crust shadow-card-hover backdrop-blur-sm transition-colors hover:border-gold hover:bg-gold/15 lg:flex"
           >
             ›
@@ -193,7 +202,7 @@ export default function LinhasVitrine() {
           <button
             type="button"
             onClick={() => nav(-1)}
-            aria-label="Linha anterior"
+            aria-label={t.prev}
             className="flex h-11 w-11 items-center justify-center rounded-full border border-tan/30 text-xl leading-none text-crust transition-colors hover:border-gold hover:bg-gold/15 lg:hidden"
           >
             ‹
@@ -208,7 +217,7 @@ export default function LinhasVitrine() {
                   goTo(i);
                   startAuto();
                 }}
-                aria-label={`Ir para ${l.title}`}
+                aria-label={fmt(t.goTo, { title: l.title })}
                 aria-current={i === active ? "true" : undefined}
                 className="flex h-6 items-center"
               >
@@ -224,7 +233,7 @@ export default function LinhasVitrine() {
           <button
             type="button"
             onClick={() => nav(1)}
-            aria-label="Próxima linha"
+            aria-label={t.next}
             className="flex h-11 w-11 items-center justify-center rounded-full border border-tan/30 text-xl leading-none text-crust transition-colors hover:border-gold hover:bg-gold/15 lg:hidden"
           >
             ›
