@@ -190,12 +190,15 @@ export const en: Dict = {
   },
 
   hero: {
-    slides: [
-      { alt: "Kero+ breads and traditional bakes — tradition and quality crafted in every batch" },
-      {
+    slides: {
+      expoind: {
+        alt: "Kero+ at Expoind 2026: confirmed attendance at the 3rd edition of the Business and Solutions Fair for Goiás Industry (Feira de Negócios e Soluções para a Indústria Goiana), October 27–29, 2026, at the Goiânia Convention Center",
+      },
+      paes: { alt: "Kero+ breads and traditional bakes — tradition and quality crafted in every batch" },
+      salgados: {
         alt: "Kero+ frozen savory snacks — coxinha, rissole, pastel, and breaded snacks ready to fry",
       },
-    ],
+    },
     title: { line1: "Tradition and Excellence", accent: "on Your Table" } as SplitTitle,
     cta: "Explore Our Products",
     prev: "Previous image",

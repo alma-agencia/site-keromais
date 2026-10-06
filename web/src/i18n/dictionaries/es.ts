@@ -190,12 +190,15 @@ export const es: Dict = {
   },
 
   hero: {
-    slides: [
-      { alt: "Panes y horneados tradicionales Kero+ — tradición y calidad fabricadas en cada lote" },
-      {
+    slides: {
+      expoind: {
+        alt: "Kero+ en Expoind 2026: presencia confirmada en la 3.ª edición de la Feria de Negocios y Soluciones para la Industria de Goiás, del 27 al 29 de octubre de 2026, en el Centro de Convenciones de Goiânia",
+      },
+      paes: { alt: "Panes y horneados tradicionales Kero+ — tradición y calidad fabricadas en cada lote" },
+      salgados: {
         alt: "Salgados congelados Kero+ — coxinha, risole, pastel y empanados listos para freír",
       },
-    ],
+    },
     title: { line1: "Tradición y Excelencia", accent: "en Tu Mesa" } as SplitTitle,
     cta: "Conoce los Productos",
     prev: "Imagen anterior",

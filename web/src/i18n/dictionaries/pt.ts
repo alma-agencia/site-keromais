@@ -189,12 +189,15 @@ export const pt = {
   },
 
   hero: {
-    slides: [
-      { alt: "Pães e quitandas Kero+ — tradição e qualidade fabricada em cada lote" },
-      {
+    slides: {
+      expoind: {
+        alt: "Kero+ na Expoind 2026: presença confirmada na 3ª edição da Feira de Negócios e Soluções para a Indústria Goiana, de 27 a 29 de outubro de 2026, no Centro de Convenções de Goiânia",
+      },
+      paes: { alt: "Pães e quitandas Kero+ — tradição e qualidade fabricada em cada lote" },
+      salgados: {
         alt: "Salgados congelados Kero+ — coxinha, risole, pastel e empanados prontos para fritar",
       },
-    ],
+    },
     title: { line1: "Tradição e Excelência", accent: "na Sua Mesa" } as SplitTitle,
     cta: "Conheça os Produtos",
     prev: "Imagem anterior",
