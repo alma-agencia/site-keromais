@@ -77,16 +77,22 @@ export default function Hero({ lang, t }: { lang: Locale; t: Dict["hero"] }) {
 
   // Light artwork needs dark controls, and its text runs close to the edges: below xl the arrows
   // sit in the bottom strip (beside the dots) instead of over the artwork. Photos keep them centered.
-  const arrow = `absolute z-[4] flex h-11 w-11 items-center justify-center rounded-full border text-xl leading-none backdrop-blur-[2px] transition-colors hover:border-gold hover:bg-gold hover:text-crust ${
+  const arrow = `absolute z-[4] flex items-center justify-center rounded-full border text-xl leading-none backdrop-blur-[2px] transition-colors hover:border-gold hover:bg-gold hover:text-crust ${
     poster
-      ? "bottom-3.5 border-crust/35 bg-white/75 text-crust xl:bottom-auto xl:top-1/2 xl:-translate-y-1/2"
-      : "top-1/2 -translate-y-1/2 border-cream/50 bg-ink/30 text-cream"
+      ? "bottom-3.5 h-11 w-11 border-crust/35 bg-white/75 text-crust md:bottom-auto md:top-1/2 md:h-9 md:w-9 md:-translate-y-1/2 xl:h-11 xl:w-11"
+      : "top-1/2 h-11 w-11 -translate-y-1/2 border-cream/50 bg-ink/30 text-cream"
   }`;
+  const armLeft = poster ? "left-4 md:left-1.5 xl:left-4" : "left-4";
+  const armRight = poster ? "right-4 md:right-1.5 xl:right-4" : "right-4";
 
   return (
     <section
       id="hero"
-      className="relative isolate min-h-[var(--hero-h)] overflow-hidden bg-ink text-cream [--hero-h:620px] md:[--hero-h:max(600px,min(41.67vw,calc(100vh_-_136px)))]"
+      className={`relative isolate h-[var(--hero-h)] overflow-hidden bg-ink text-cream transition-[height] duration-[900ms] ease-out [--hero-h:620px] ${
+        poster
+          ? "md:[--hero-h:min(41.67vw,max(600px,calc(100vh_-_136px)))]"
+          : "md:[--hero-h:max(600px,min(41.67vw,calc(100vh_-_136px)))]"
+      }`}
     >
       {/* Art-directed crossfade carousel: portrait on mobile, landscape on desktop */}
       {SLIDES.map((s, i) => {
@@ -147,7 +153,7 @@ export default function Hero({ lang, t }: { lang: Locale; t: Dict["hero"] }) {
         type="button"
         onClick={() => go(slide - 1)}
         aria-label={t.prev}
-        className={`${arrow} left-4`}
+        className={`${arrow} ${armLeft}`}
       >
         ‹
       </button>
@@ -155,13 +161,17 @@ export default function Hero({ lang, t }: { lang: Locale; t: Dict["hero"] }) {
         type="button"
         onClick={() => go(slide + 1)}
         aria-label={t.next}
-        className={`${arrow} right-4`}
+        className={`${arrow} ${armRight}`}
       >
         ›
       </button>
 
       {/* Dots */}
-      <div className="absolute bottom-6 left-1/2 z-[4] flex -translate-x-1/2 gap-2.5">
+      <div
+        className={`absolute bottom-6 left-1/2 z-[4] flex -translate-x-1/2 gap-2.5 ${
+          poster ? "md:rounded-full md:bg-white/70 md:px-2 md:backdrop-blur-[2px]" : ""
+        }`}
+      >
         {SLIDES.map((s, i) => (
           <button
             key={s.key}
@@ -184,7 +194,7 @@ export default function Hero({ lang, t }: { lang: Locale; t: Dict["hero"] }) {
 
       {/* Copy — fades out over poster slides (the heading stays in the page for screen readers) */}
       <div
-        className={`relative z-[3] mx-auto flex min-h-[var(--hero-h)] max-w-[1280px] flex-col items-center justify-center px-7 py-14 text-center transition-opacity duration-[900ms] md:items-start md:px-14 md:py-24 md:text-left ${
+        className={`relative z-[3] mx-auto flex h-full max-w-[1280px] flex-col items-center justify-center px-7 py-14 text-center transition-opacity duration-[900ms] md:items-start md:px-14 md:py-24 md:text-left ${
           poster ? "pointer-events-none opacity-0" : "opacity-100"
         }`}
       >
